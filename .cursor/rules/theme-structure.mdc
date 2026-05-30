@@ -52,13 +52,35 @@ JS overrides in `assets/custom-main.js`.
 - Alternative templates: `product.[name].json`, `page.[name].json`
 - Do NOT add logic to JSON templates
 
-### `/.cursor/rules/`
+### `/.cursor/` — Cursor AI Configuration
+
+#### `rules/` — How to code (auto-loaded guidelines)
 - `shopify-liquid.mdc` — Liquid coding standards
 - `theme-structure.mdc` — This file
 - `git-workflow.mdc` — Branch & commit standards
 - `performance.mdc` — Performance & Core Web Vitals rules
 - `accessibility.mdc` — WCAG 2.1 AA rules
 - `javascript.mdc` — JS/ES6+ standards for theme JS
+
+#### `skills/` — Shopify knowledge base (invoke with @skill-name)
+- `shopify-theme-architecture` — OS 2.0 structure, sections, blocks, templates
+- `shopify-liquid-advanced` — Advanced Liquid patterns and performance
+- `shopify-metafields` — Metafields and metaobjects
+- `shopify-cart-ajax` — Cart API and Section Rendering API
+- `shopify-performance` — Core Web Vitals optimization
+- `shopify-deployment` — CLI workflow and launch process
+
+#### `checklists/` — QA standards
+- `code-review.md` — PR review checklist
+- `qa-checklist.md` — Functional QA before merge
+- `performance-audit.md` — Core Web Vitals audit
+- `launch-checklist.md` — Pre-launch and go-live checklist
+
+#### `prompts/` — Senior developer workflows
+- `prd-generator.md` — Generate feature PRDs
+- `task-breakdown.md` — Break features into implementation tasks
+- `bug-fix.md` — Systematic bug investigation workflow
+- `code-review.md` — Structured PR review prompt
 
 ### `/.shopify/`
 - `metafields.json` — Metafield definitions for the store
