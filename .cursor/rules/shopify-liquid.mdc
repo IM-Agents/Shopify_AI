@@ -1,0 +1,82 @@
+---
+description: Shopify Liquid templating rules for senior developer workflow
+globs: ["**/*.liquid"]
+alwaysApply: true
+---
+
+# Shopify Liquid — Senior Developer Rules
+
+## Core Liquid Syntax
+- Always use `{% liquid %}` tags for multi-line logic to reduce tag clutter
+- Prefer `{% render %}` over `{% include %}` — `include` is deprecated in OS2.0
+- Use `{% render 'snippet-name', variable: value %}` to pass isolated scope to snippets
+- Snippets rendered with `{% render %}` do NOT inherit parent scope — pass all needed vars explicitly
+- Use `{% content_for_header %}` in `<head>` and `{% content_for_layout %}` in `<main>` of layout files
+- Use `{% content_for_index %}` only in index templates
+
+## Variables & Filters
+- Always `| escape` or `| escape_once` for user-generated or dynamic string output in HTML attributes
+- Use `| default: 'fallback'` to guard against nil values — never assume a setting exists
+- Use `| strip_html` before character counting or truncating text
+- Use `| handleize` when creating HTML IDs or CSS class slugs from strings
+- Use `| asset_url | preload_tag: as: 'style'` for critical CSS assets
+- Use `| image_url: width: 800 | image_tag` instead of manual `<img>` for Shopify CDN optimization
+- Avoid storing large objects in Liquid `assign` inside loops — prefer direct access
+
+## Sections & Blocks (OS 2.0)
+- Every section MUST have a `{% schema %}` block at the bottom
+- Schema `name` should be human-readable (shown in theme editor)
+- Always set `"presets"` in schema so sections are addable from the theme editor
+- Use `section.settings.*` — never hardcode copy/colors that editors should control
+- Limit `blocks` per section using `"max_blocks"` to prevent editor abuse
+- Use `"type": "article"`, `"type": "collection"`, `"type": "product"` pickers for resource links
+- Always add `"limit": 1` to singleton sections (header, footer, announcement bar)
+- Use `class="shopify-section"` — Shopify wraps sections in a `<div class="shopify-section">` automatically; don't double-wrap
+
+## Templates (OS 2.0 JSON Templates)
+- Use JSON templates (`templates/*.json`) — NOT `.liquid` templates, except for gift_card and password
+- JSON templates reference sections by ID using `"sections"` and `"order"` keys
+- Never put business logic directly in JSON templates — delegate to sections/snippets
+
+## Performance Best Practices
+- Lazy-load images below the fold: use `loading="lazy"` and `fetchpriority="high"` for LCP images
+- Use `{% unless request.design_mode %}` to skip heavy JS init in theme editor if not needed
+- Avoid `{% for %}` loops over large collections in Liquid — use `paginate` or JS filtering
+- Use `{% paginate collection.products by 24 %}` for collection pages
+- Minimize Liquid logic in `layout/theme.liquid` — keep it lean
+- Use `| stylesheet_tag` and `| script_tag` filters for proper asset loading
+
+## Metafields & Metaobjects
+- Access metafields via `product.metafields.namespace.key`
+- Always check `if product.metafields.namespace.key != blank` before rendering
+- Use `metaobject.fields.key.value` for metaobject field access
+- Define metafield types in Shopify Admin — never cast manually
+
+## Accessibility (WCAG 2.1 AA)
+- All `<img>` must have `alt="{{ image.alt | escape }}"` — never empty unless decorative
+- Decorative images: `alt=""` and `aria-hidden="true"`
+- Icon-only buttons MUST have `aria-label="..."` or `<span class="visually-hidden">...</span>`
+- Use `role="status"` and `aria-live="polite"` for cart count and dynamic updates
+- Focus management: use `tabindex="-1"` on modal containers and `.focus()` via JS after open
+- Never remove `outline` on focus without a visible replacement
+- Use semantic HTML: `<nav>`, `<main>`, `<header>`, `<footer>`, `<article>`, `<aside>`
+
+## Internationalization (i18n)
+- Always use `{{ 'key' | t }}` for user-facing strings — never hardcode English text
+- Add all new strings to `locales/en.default.json` first
+- Use `{{ 'key' | t: variable: value }}` for interpolated translations
+- Use `{{ 'key' | t: count: number }}` for pluralization
+
+## Custom File Naming Convention
+- Custom sections: `sections/custom-[name].liquid` (e.g., `custom-hero-banner.liquid`)
+- Custom snippets: `snippets/custom-[name].liquid` (e.g., `custom-product-badge.liquid`)
+- Custom CSS: `assets/custom-base.css`, `assets/custom-[feature].css`
+- Custom JS: `assets/custom-main.js`, `assets/custom-[feature].js`
+- NEVER modify Dawn's original files directly — always extend or override
+
+## Schema Best Practices
+- Group related settings using `"type": "header"` dividers in settings array
+- Use `"info"` keys to explain complex settings to merchants
+- Always provide `"default"` values for all settings
+- Use `"visible_if"` (where supported) to conditionally show settings
+- Keep schema `"name"` under 25 characters for clean editor display

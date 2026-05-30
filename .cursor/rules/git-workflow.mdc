@@ -1,0 +1,68 @@
+---
+description: Git workflow and branch strategy for Shopify Dawn theme development
+globs: ["**/*"]
+alwaysApply: false
+---
+
+# Git Workflow — Shopify Theme Development
+
+## Branch Strategy
+```
+main              ← mirrors live published theme (production)
+├── staging       ← pre-production / QA theme
+└── feature/*     ← individual feature branches
+    ├── feature/custom-hero-banner
+    ├── feature/sticky-header
+    └── fix/cart-drawer-mobile
+```
+
+## Branch Naming
+- Features: `feature/[short-description]` (e.g., `feature/custom-announcement-bar`)
+- Bug fixes: `fix/[short-description]` (e.g., `fix/mobile-nav-overlap`)
+- Hotfixes: `hotfix/[short-description]` (e.g., `hotfix/checkout-button-broken`)
+
+## Commit Message Convention (Conventional Commits)
+```
+feat: add custom hero banner section with video support
+fix: correct mobile cart drawer z-index issue
+style: update product card hover animation
+refactor: extract badge logic into custom-product-badge snippet
+perf: lazy load collection page images below fold
+a11y: add aria-label to all icon-only nav buttons
+chore: update shopify.theme.toml with staging theme ID
+```
+
+## What to .gitignore
+```
+# Always ignore
+node_modules/
+.DS_Store
+*.log
+
+# Sensitive - never commit production settings
+config/settings_data.json
+
+# Shopify CLI files (generated)
+.shopify/
+```
+
+## Shopify Theme Environments Workflow
+- `main` branch → push to **Live Theme** (published)
+- `staging` branch → push to **Staging Theme** (unpublished, for QA)
+- `feature/*` branch → push to **Development Theme** (unpublished, for dev preview)
+
+```bash
+# Push current branch to dev theme
+shopify theme push --theme [dev-theme-id]
+
+# Push to staging theme
+shopify theme push --theme [staging-theme-id] --environment staging
+
+# NEVER run push without --theme on main branch accidentally
+```
+
+## Pull Request Rules
+- All PRs target `staging` first — never push directly to `main`
+- PR title follows commit convention
+- Include before/after screenshots for visual changes
+- Link to the Shopify theme preview URL in PR description

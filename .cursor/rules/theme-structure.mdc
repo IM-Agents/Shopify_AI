@@ -1,0 +1,81 @@
+---
+description: Dawn theme folder structure and file organization rules
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Dawn Theme — Structure & Organization Rules
+
+## Golden Rule
+**NEVER modify Dawn's original files.** Always create new custom files prefixed with `custom-`.
+If you need to change Dawn behavior, use CSS overrides in `assets/custom-base.css` or
+JS overrides in `assets/custom-main.js`.
+
+## Folder Responsibilities
+
+### `/assets/`
+- Dawn originals: DO NOT TOUCH
+- Your custom CSS: `custom-base.css` (global), `custom-[feature].css` (scoped)
+- Your custom JS: `custom-main.js` (global), `custom-[feature].js` (scoped)
+- Custom SVG icons: `custom-icon-[name].svg`
+- Always load custom CSS/JS via `layout/theme.liquid` using asset filters
+
+### `/config/`
+- `settings_schema.json` — Add new custom settings groups at the END of the array
+- `settings_data.json` — Managed by Shopify; do not hand-edit production values
+
+### `/layout/`
+- `theme.liquid` — Main layout; add custom asset tags here
+- `password.liquid` — Only for password-protected store page
+- Load custom CSS: `{{ 'custom-base.css' | asset_url | stylesheet_tag }}`
+- Load custom JS: `{{ 'custom-main.js' | asset_url | script_tag }}`
+
+### `/locales/`
+- Add translations to `en.default.json` (source of truth)
+- Add schema translations to `en.default.schema.json`
+- Never hardcode user-facing text in Liquid — always use `| t` filter
+
+### `/sections/`
+- Dawn originals: DO NOT TOUCH
+- New sections: `custom-[name].liquid` prefix required
+- Every section must have a `{% schema %}` block
+- Section CSS: either inline `<style>` or separate `assets/custom-[name].css`
+
+### `/snippets/`
+- Dawn originals: DO NOT TOUCH
+- New snippets: `custom-[name].liquid` prefix required
+- Snippets are stateless — receive all data via parameters
+- No schema blocks in snippets (sections only)
+
+### `/templates/`
+- Use JSON templates for OS 2.0
+- Alternative templates: `product.[name].json`, `page.[name].json`
+- Do NOT add logic to JSON templates
+
+### `/.cursor/rules/`
+- `shopify-liquid.mdc` — Liquid coding standards
+- `theme-structure.mdc` — This file
+- `git-workflow.mdc` — Branch & commit standards
+- `performance.mdc` — Performance & Core Web Vitals rules
+- `accessibility.mdc` — WCAG 2.1 AA rules
+- `javascript.mdc` — JS/ES6+ standards for theme JS
+
+### `/.shopify/`
+- `metafields.json` — Metafield definitions for the store
+
+## File Naming Conventions
+| Type | Convention | Example |
+|------|-----------|---------|
+| Custom Section | `custom-[feature].liquid` | `custom-hero-banner.liquid` |
+| Custom Snippet | `custom-[name].liquid` | `custom-product-badge.liquid` |
+| Custom CSS | `custom-[scope].css` | `custom-product-page.css` |
+| Custom JS | `custom-[scope].js` | `custom-sticky-header.js` |
+| Custom Icon SVG | `custom-icon-[name].svg` | `custom-icon-trust.svg` |
+
+## What To Never Do
+- ❌ Edit `assets/base.css` — override in `assets/custom-base.css`
+- ❌ Edit `assets/global.js` — extend in `assets/custom-main.js`
+- ❌ Edit any existing Dawn section/snippet
+- ❌ Use inline styles — use CSS custom properties instead
+- ❌ Commit `config/settings_data.json` with production data to version control
+- ❌ Use `{% include %}` — always use `{% render %}`

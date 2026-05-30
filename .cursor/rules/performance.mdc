@@ -1,0 +1,54 @@
+---
+description: Performance and Core Web Vitals rules for Shopify Dawn theme
+globs: ["**/*.liquid", "assets/custom-*.css", "assets/custom-*.js"]
+alwaysApply: false
+---
+
+# Performance — Core Web Vitals Rules
+
+## LCP (Largest Contentful Paint) — Target < 2.5s
+- Hero/banner images MUST use `fetchpriority="high"` and `loading="eager"`
+- All other images use `loading="lazy"`
+- Use `{{ image | image_url: width: 1500 | image_tag: loading: 'eager', fetchpriority: 'high' }}` for hero
+- Preload critical fonts in `layout/theme.liquid` `<head>`:
+  ```liquid
+  <link rel="preload" href="{{ 'font-name.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+  ```
+- Preload critical CSS:
+  ```liquid
+  {{ 'custom-base.css' | asset_url | preload_tag: as: 'style' }}
+  ```
+
+## CLS (Cumulative Layout Shift) — Target < 0.1
+- Always set explicit `width` and `height` on `<img>` or use `aspect-ratio` CSS
+- Reserve space for lazy-loaded content with `min-height` or skeleton loaders
+- Avoid injecting content above existing content after page load
+- Use `font-display: swap` for web fonts to prevent invisible text flash
+
+## INP / FID (Interaction to Next Paint) — Target < 200ms
+- Avoid long synchronous JS tasks on user interaction
+- Debounce input events (search, filters) with 300ms delay
+- Use `requestIdleCallback` for non-critical initialization
+
+## Asset Optimization
+- Never load unused CSS — scope custom CSS to specific templates using:
+  ```liquid
+  {% if template == 'product' %}
+    {{ 'custom-product-page.css' | asset_url | stylesheet_tag }}
+  {% endif %}
+  ```
+- Inline critical CSS for above-the-fold content when < 4KB
+- Use `srcset` via Shopify's `image_url` filter with multiple widths:
+  ```liquid
+  {{ image | image_url: width: 400 }}  400w,
+  {{ image | image_url: width: 800 }}  800w,
+  {{ image | image_url: width: 1200 }} 1200w
+  ```
+
+## Third-Party Scripts
+- Load all third-party scripts with `async` or `defer`
+- Delay analytics/chat scripts until after first user interaction:
+  ```js
+  document.addEventListener('scroll', loadAnalytics, { once: true });
+  ```
+- Never load GTM/GA synchronously in `<head>`
