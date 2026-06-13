@@ -1,0 +1,159 @@
+{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}
+{{ 'section-custom-newsletter.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="custom-newsletter{% if section.settings.image != blank %} custom-newsletter--with-image{% endif %}">
+      {%- if section.settings.image != blank -%}
+        <div class="custom-newsletter__media">
+          {% render 'custom-responsive-image', image: section.settings.image, loading: 'lazy' %}
+        </div>
+      {%- endif -%}
+
+      <div class="custom-newsletter__content">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="custom-newsletter__heading {{ section.settings.heading_size }}">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.text != blank -%}
+          <div class="custom-newsletter__text rte">{{ section.settings.text }}</div>
+        {%- endif -%}
+
+        {%- form 'customer', class: 'custom-newsletter__form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="custom-newsletter__field">
+            <label class="field__label visually-hidden" for="CustomNewsletterEmail-{{ section.id }}">
+              {{ 'newsletter.label' | t }}
+            </label>
+            <input
+              id="CustomNewsletterEmail-{{ section.id }}"
+              type="email"
+              name="contact[email]"
+              class="field__input"
+              value="{{ form.email }}"
+              aria-required="true"
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+              placeholder="{{ 'newsletter.label' | t }}"
+              required
+            >
+            <button type="submit" class="custom-button custom-button--primary" name="commit">
+              {{ section.settings.button_label | default: 'Subscribe' | escape }}
+            </button>
+          </div>
+
+          {%- if form.errors -%}
+            <small class="form__message" id="CustomNewsletter-error-{{ section.id }}">
+              {{ form.errors.translated_fields.email | capitalize }}
+              {{ form.errors.messages.email }}
+            </small>
+          {%- endif -%}
+
+          {%- if form.posted_successfully? -%}
+            <h3 class="form__message form__message--success" tabindex="-1" autofocus>
+              {{ 'newsletter.success' | t }}
+            </h3>
+          {%- endif -%}
+        {%- endform -%}
+
+        {%- if section.settings.consent_text != blank -%}
+          <p class="custom-newsletter__consent">{{ section.settings.consent_text | escape }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Newsletter",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Subscribe to our newsletter"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Large" },
+        { "value": "h1", "label": "Extra large" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Be the first to know about new collections and exclusive offers.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "consent_text",
+      "label": "Consent text"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Newsletter"
+    }
+  ]
+}
+{% endschema %}

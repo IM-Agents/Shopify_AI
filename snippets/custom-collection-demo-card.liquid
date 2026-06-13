@@ -1,0 +1,37 @@
+{% doc %}
+Renders a static demo product card for empty collections (Figma placeholders).
+@param {string} title - Product title
+@param {string} price - Sale price label
+@param {string} compare_price - Compare-at price label
+@param {image} [image] - Optional image_picker value
+@param {string} [default_asset] - Figma default theme asset filename
+@example
+{% render 'custom-collection-demo-card', title: 'Ring', price: '$900', compare_price: '$1,200', default_asset: 'custom-product-1-56586a.png' %}
+{% enddoc %}
+
+<article class="custom-collection-card">
+  <div class="custom-collection-card__link">
+    <div class="custom-collection-card__media">
+      {% render 'custom-theme-image',
+        image: image,
+        default_asset: default_asset,
+        alt: title,
+        class: 'custom-collection-card__image',
+        width: 212,
+        height: 212,
+        image_width: 424,
+        placeholder_class: 'custom-collection-card__placeholder'
+      %}
+    </div>
+
+    <div class="custom-collection-card__info">
+      <h3 class="custom-collection-card__title">{{ title | escape }}</h3>
+      <div class="custom-collection-card__prices">
+        {%- if compare_price != blank -%}
+          <span class="custom-collection-card__compare">{{ compare_price | escape }}</span>
+        {%- endif -%}
+        <span class="custom-collection-card__price">{{ price | escape }}</span>
+      </div>
+    </div>
+  </div>
+</article>

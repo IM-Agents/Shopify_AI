@@ -1,0 +1,18 @@
+# OS & Editor
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+
+# Node (if any tooling added)
+node_modules/
+
+# Shopify CLI generated
+.shopify/
+
+# Sensitive — Never commit production settings data
+config/settings_data.json
+
+# Build artifacts
+dist/
+build/

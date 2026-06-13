@@ -1,0 +1,59 @@
+{% doc %}
+Renders a product card with badge, image, title, and price.
+@param {product} product - The Shopify product object
+@param {boolean} [show_vendor] - Show product vendor
+@param {boolean} [show_quick_add] - Show quick add button
+@param {string} [section_id] - Section ID for product form
+@param {string} [image_ratio] - Image aspect ratio: adapt, square, portrait
+@example
+{% render 'custom-product-card', product: product, show_quick_add: true %}
+{% enddoc %}
+
+{%- liquid
+  assign ratio = image_ratio | default: 'adapt'
+  assign card_image = product.featured_media
+-%}
+
+<article class="custom-product-card">
+  <a href="{{ product.url }}" class="custom-product-card__link" aria-label="{{ product.title | escape }}">
+    <div class="custom-product-card__media custom-product-card__media--{{ ratio }}">
+      {%- if card_image != blank -%}
+        {% render 'custom-responsive-image', image: card_image, loading: 'lazy', class: 'custom-product-card__image' %}
+      {%- else -%}
+        <div class="custom-product-card__placeholder">
+          {{ 'product-1' | placeholder_svg_tag }}
+        </div>
+      {%- endif -%}
+      {% render 'custom-product-badge', product: product %}
+    </div>
+
+    <div class="custom-product-card__info">
+      {%- if show_vendor and product.vendor != blank -%}
+        <p class="custom-product-card__vendor">{{ product.vendor | escape }}</p>
+      {%- endif -%}
+      <h3 class="custom-product-card__title">{{ product.title | escape }}</h3>
+      <div class="custom-product-card__price">
+        {% render 'price', product: product, price_class: '' %}
+      </div>
+    </div>
+  </a>
+
+  {%- if show_quick_add and product.available -%}
+    <div class="custom-product-card__actions">
+      {%- if product.variants.size == 1 -%}
+        <product-form{% if section_id != blank %} data-section-id="{{ section_id }}"{% endif %}>
+          {%- form 'product', product, class: 'custom-product-card__form' -%}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <button type="submit" class="custom-button custom-button--secondary custom-product-card__quick-add">
+              {{ 'products.product.add_to_cart' | t }}
+            </button>
+          {%- endform -%}
+        </product-form>
+      {%- else -%}
+        <a href="{{ product.url }}" class="custom-button custom-button--secondary custom-product-card__quick-add">
+          {{ 'products.product.choose_options' | t }}
+        </a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</article>

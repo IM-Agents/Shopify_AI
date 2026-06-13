@@ -1,0 +1,141 @@
+.custom-product-card,
+.custom-collection-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.custom-product-card__link,
+.custom-collection-card__link {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.custom-product-card__media,
+.custom-collection-card__media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--media-radius, 0);
+}
+
+.custom-product-card__media--adapt,
+.custom-collection-card__media--adapt {
+  aspect-ratio: auto;
+}
+
+.custom-product-card__media--square,
+.custom-collection-card__media--square {
+  aspect-ratio: 1 / 1;
+}
+
+.custom-product-card__media--portrait,
+.custom-collection-card__media--portrait {
+  aspect-ratio: 4 / 5;
+}
+
+.custom-product-card__image,
+.custom-collection-card__image,
+.custom-responsive-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.custom-product-card__placeholder,
+.custom-collection-card__placeholder,
+.custom-responsive-image--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--color-foreground), 0.04);
+  aspect-ratio: 1 / 1;
+}
+
+.custom-product-card__info,
+.custom-collection-card__info {
+  padding: 1.2rem 0 0;
+}
+
+.custom-product-card__vendor,
+.custom-collection-card__count {
+  margin: 0 0 0.4rem;
+  font-size: 1.2rem;
+  opacity: 0.7;
+}
+
+.custom-product-card__title,
+.custom-collection-card__title {
+  margin: 0 0 0.8rem;
+  font-size: 1.6rem;
+  line-height: 1.3;
+}
+
+.custom-product-card__actions {
+  margin-top: 1.2rem;
+}
+
+.custom-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1;
+  padding: 0.4rem 0.8rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 0.4rem;
+  background: rgb(var(--custom-brand-accent));
+  color: rgb(var(--color-background));
+}
+
+.custom-badge--sold-out {
+  background: rgba(var(--color-foreground), 0.08);
+  color: rgb(var(--color-foreground));
+}
+
+.custom-badge--sale {
+  background: rgb(var(--custom-brand-accent));
+}
+
+.custom-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4.4rem;
+  padding: 0 2.4rem;
+  border-radius: var(--buttons-radius);
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity var(--custom-transition-base, 200ms ease);
+}
+
+.custom-button--primary {
+  background: rgb(var(--custom-brand-accent));
+  color: rgb(var(--color-background));
+  border: 0.1rem solid rgb(var(--custom-brand-accent));
+}
+
+.custom-button--secondary {
+  background: transparent;
+  color: rgb(var(--color-foreground));
+  border: 0.1rem solid rgba(var(--color-foreground), 0.2);
+}
+
+.custom-button--link {
+  background: transparent;
+  color: rgb(var(--color-foreground));
+  border: none;
+  padding: 0;
+  min-height: auto;
+  text-decoration: underline;
+}
+
+.custom-button--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

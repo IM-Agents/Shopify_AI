@@ -1,0 +1,63 @@
+{{ 'section-custom-design.css' | asset_url | stylesheet_tag }}
+
+<section class="custom-design-trust">
+  <div class="custom-design-trust__inner page-width">
+    {%- for block in section.blocks -%}
+      <div class="custom-design-trust__item" {{ block.shopify_attributes }}>
+        <span class="custom-design-trust__icon" aria-hidden="true">
+          {% render 'custom-theme-icon',
+            image: block.settings.icon,
+            class: 'custom-design-trust__icon-image'
+          %}
+        </span>
+        <span class="custom-design-trust__label">{{ block.settings.label | escape }}</span>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Design Trust Bar",
+  "tag": "section",
+  "class": "section",
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Handmade with Love"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Design Trust Bar",
+      "blocks": [
+        {
+          "type": "trust_item",
+          "settings": { "label": "Handmade with Love" }
+        },
+        {
+          "type": "trust_item",
+          "settings": { "label": "Secure Shipping" }
+        },
+        {
+          "type": "trust_item",
+          "settings": { "label": "Trusted by 27K+" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

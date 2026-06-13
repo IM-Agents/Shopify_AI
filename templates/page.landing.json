@@ -1,0 +1,98 @@
+{
+  "sections": {
+    "custom_hero": {
+      "type": "custom-hero-banner",
+      "settings": {
+        "heading": "Landing page hero",
+        "subtext": "Highlight your campaign or promotion",
+        "button_label": "Shop now",
+        "button_link": "shopify://collections/all",
+        "overlay_opacity": 35,
+        "section_height": 550,
+        "content_position": "center center",
+        "text_alignment": "center",
+        "text_color": "#ffffff"
+      }
+    },
+    "custom_image_with_text": {
+      "type": "custom-image-with-text",
+      "settings": {
+        "heading": "Campaign details",
+        "text": "<p>Use this section to explain your offer or promotion.</p>",
+        "button_label": "Learn more",
+        "button_style": "primary",
+        "layout": "image_first",
+        "text_alignment": "left",
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "custom_featured_products": {
+      "type": "custom-featured-products",
+      "settings": {
+        "heading": "Featured products",
+        "products_to_show": 4,
+        "columns_desktop": "4",
+        "columns_mobile": "2",
+        "image_ratio": "adapt",
+        "show_vendor": false,
+        "show_quick_add": true,
+        "show_view_all": false,
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "custom_faq": {
+      "type": "custom-faq-accordion",
+      "blocks": {
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>We accept returns within 30 days of purchase.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Standard shipping typically arrives within 3 to 5 business days.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2"
+      ],
+      "settings": {
+        "heading": "Frequently asked questions",
+        "heading_size": "h2",
+        "heading_alignment": "center",
+        "open_first": true,
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "custom_newsletter": {
+      "type": "custom-newsletter",
+      "settings": {
+        "heading": "Stay in the loop",
+        "text": "<p>Sign up for updates about this campaign.</p>",
+        "button_label": "Subscribe",
+        "color_scheme": "scheme-1",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "custom_hero",
+    "custom_image_with_text",
+    "custom_featured_products",
+    "custom_faq",
+    "custom_newsletter"
+  ]
+}

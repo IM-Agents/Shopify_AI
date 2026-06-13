@@ -1,0 +1,38 @@
+{% doc %}
+Renders an icon from image_picker with optional theme asset fallback.
+@param {image} [image] - image_picker setting value
+@param {string} [default_asset] - theme asset filename fallback
+@param {string} class - CSS class for the icon image
+@param {number} [width] - Display width attribute
+@param {number} [height] - Display height attribute
+@param {number} [image_width] - CDN resize width for picker images
+@example
+{% render 'custom-theme-icon', image: block.settings.icon, default_asset: 'custom-icon-composition.svg', class: 'custom-value-props__icon-image', width: 30, height: 27 %}
+{% enddoc %}
+
+{%- liquid
+  assign picker_width = image_width | default: 128
+  assign loading_mode = loading | default: 'lazy'
+-%}
+
+{%- if image != blank -%}
+  {{
+    image
+    | image_url: width: picker_width
+    | image_tag:
+      loading: loading_mode,
+      alt: '',
+      class: class,
+      width: width,
+      height: height
+  }}
+{%- elsif default_asset != blank -%}
+  <img
+    src="{{ default_asset | asset_url }}"
+    alt=""
+    class="{{ class }}"
+    loading="{{ loading_mode }}"
+    {% if width %}width="{{ width }}"{% endif %}
+    {% if height %}height="{{ height }}"{% endif %}
+  >
+{%- endif -%}

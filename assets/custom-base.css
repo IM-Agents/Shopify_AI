@@ -1,0 +1,204 @@
+/**
+ * custom-base.css — Diamondrensu design system overrides
+ */
+
+:root {
+  --dr-bg: #f9f9f9;
+  --dr-bg-warm: #f9f7f2;
+  --dr-text: #000000;
+  --dr-text-muted: #444748;
+  --dr-text-body: #1a1c1c;
+  --dr-accent: #8d734a;
+  --dr-border: #e5e5e5;
+  --dr-image-bg: #f3f3f4;
+  --dr-sale: #ba1a1a;
+  --dr-white: #ffffff;
+  --dr-font-body: 'Inter', var(--font-body-family), sans-serif;
+  --dr-font-heading: 'Playfair Display', var(--font-heading-family), serif;
+  --dr-section-padding-y: 12rem;
+  --dr-section-padding-x: 4rem;
+  --custom-brand-accent: 141, 115, 74;
+}
+
+body {
+  background-color: var(--dr-bg);
+  font-family: var(--dr-font-body);
+  color: var(--dr-text-muted);
+}
+
+h1,
+h2,
+h3,
+h4,
+.custom-dr-heading {
+  font-family: var(--dr-font-heading);
+  color: var(--dr-text);
+  font-weight: 400;
+}
+
+.custom-dr-section {
+  padding: 8rem 2rem;
+}
+
+@media screen and (min-width: 750px) {
+  .custom-dr-section {
+    padding: var(--dr-section-padding-y) var(--dr-section-padding-x);
+  }
+}
+
+.custom-dr-section__header {
+  text-align: center;
+  margin-bottom: 3.2rem;
+}
+
+.custom-dr-section__heading {
+  margin: 0 0 2.4rem;
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  line-height: 1.3;
+}
+
+.custom-dr-section__subtext {
+  margin: 0 auto;
+  max-width: 56rem;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  color: var(--dr-text-muted);
+}
+
+.custom-dr-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.6rem;
+}
+
+.custom-dr-pill {
+  appearance: none;
+  background: transparent;
+  border: 0.1rem solid var(--dr-border);
+  color: var(--dr-text-muted);
+  cursor: pointer;
+  font-family: var(--dr-font-body);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  line-height: 1em;
+  padding: 0.85rem 2.4rem 0.95rem;
+  text-transform: uppercase;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+.custom-dr-pill--active,
+.custom-dr-pill:hover {
+  background: var(--dr-text);
+  border-color: var(--dr-text);
+  color: var(--dr-white);
+}
+
+.custom-dr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem 3.2rem;
+  font-family: var(--dr-font-body);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  line-height: 1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: opacity 200ms ease;
+}
+
+.custom-dr-btn:hover {
+  opacity: 0.85;
+}
+
+.custom-dr-btn--primary {
+  background: var(--dr-text);
+  border: 0.1rem solid var(--dr-text);
+  color: var(--dr-white);
+}
+
+.custom-dr-btn--secondary {
+  background: transparent;
+  border: 0.1rem solid var(--dr-text);
+  color: var(--dr-text);
+}
+
+.custom-dr-btn--outline {
+  background: transparent;
+  border: 0.1rem solid var(--dr-border);
+  color: var(--dr-text);
+}
+
+.custom-dr-btn--outline-dark {
+  background: transparent;
+  border: 0.1rem solid var(--dr-text);
+  color: var(--dr-text);
+}
+
+.custom-dr-btn--underline {
+  padding: 0 0 0.4rem;
+  background: transparent;
+  border: none;
+  border-bottom: 0.1rem solid var(--dr-text);
+  color: var(--dr-text);
+}
+
+.custom-dr-filter-panel {
+  display: none;
+}
+
+.custom-dr-filter-panel--active {
+  display: block;
+}
+
+.custom-dr-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.4rem;
+}
+
+/* Header overrides */
+.custom-top-bar + .header-wrapper .header-wrapper,
+.header-wrapper {
+  background: var(--dr-bg);
+}
+
+.header-wrapper--border-bottom {
+  border-bottom: 0.1rem solid var(--dr-border);
+}
+
+.header__heading-link .h2,
+.header__heading-link span {
+  font-family: var(--dr-font-body);
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.header__menu-item .header__active-menu-item,
+.header__menu-item span {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.header__menu-item .header__active-menu-item {
+  border-bottom: 0.1rem solid var(--dr-text);
+  color: var(--dr-text);
+}
+
+/* Collection template body */
+.template-collection {
+  background: var(--dr-white);
+}
+
+/* Custom design page */
+.page-custom-design {
+  background: var(--dr-bg);
+}
+

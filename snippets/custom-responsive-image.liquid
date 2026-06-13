@@ -1,0 +1,38 @@
+{% doc %}
+Renders a responsive Shopify image with srcset and lazy loading.
+@param {image} image - The image object
+@param {string} [alt] - Alt text override
+@param {string} [loading] - Loading strategy: lazy or eager
+@param {string} [fetchpriority] - Fetch priority: high, low, auto
+@param {string} [class] - Additional CSS classes
+@param {number} [max_width] - Maximum image width
+@example
+{% render 'custom-responsive-image', image: section.settings.image, loading: 'lazy' %}
+{% enddoc %}
+
+{%- if image != blank -%}
+  {%- liquid
+    assign image_max_width = max_width | default: 2000
+    assign image_loading = loading | default: 'lazy'
+    assign image_alt = alt | default: image.alt | escape
+    assign image_class = 'custom-responsive-image'
+    if class != blank
+      assign image_class = image_class | append: ' ' | append: class
+    endif
+  -%}
+  {{
+    image
+    | image_url: width: image_max_width
+    | image_tag:
+      class: image_class,
+      loading: image_loading,
+      fetchpriority: fetchpriority,
+      alt: image_alt,
+      widths: '375, 550, 750, 1100, 1500, 1780, 2000',
+      sizes: '(min-width: 1440px) 1440px, (min-width: 1024px) 50vw, 100vw'
+  }}
+{%- else -%}
+  <div class="custom-responsive-image custom-responsive-image--placeholder">
+    {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+  </div>
+{%- endif -%}

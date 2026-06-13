@@ -1,0 +1,51 @@
+{% doc %}
+Renders a demo signature collection card using Figma defaults.
+@param {string} title - Product title
+@param {string} price - Display price
+@param {string} compare_price - Compare at price
+@param {image} [image] - Optional image_picker value
+@param {string} [default_asset] - Figma default theme asset filename
+@param {string} [badge_text] - Optional badge label
+@param {string} [overlay_text] - Optional image overlay label
+@param {string} [link] - Card link URL
+{% enddoc %}
+
+<article class="custom-signature-card">
+  <a href="{{ link | default: routes.all_products_collection_url }}" class="custom-signature-card__link">
+    <div class="custom-signature-card__media">
+      <div class="custom-signature-card__media-frame">
+        {% render 'custom-theme-image',
+          image: image,
+          default_asset: default_asset,
+          alt: title,
+          class: 'custom-signature-card__image',
+          width: 248,
+          height: 248,
+          image_width: 496,
+          placeholder_class: 'custom-signature-card__placeholder'
+        %}
+
+        {%- if overlay_text != blank -%}
+          <span class="custom-signature-card__overlay">{{ overlay_text | escape }}</span>
+        {%- endif -%}
+
+        {%- if badge_text != blank -%}
+          <span class="custom-signature-card__badge">{{ badge_text | escape }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="custom-signature-card__info">
+      <h3 class="custom-signature-card__title">{{ title | escape }}</h3>
+
+      <div class="custom-signature-card__price-row">
+        {%- if price != blank -%}
+          <span class="custom-signature-card__price-text">{{ price | escape }}</span>
+        {%- endif -%}
+        {%- if compare_price != blank -%}
+          <span class="custom-signature-card__compare">{{ compare_price | escape }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+  </a>
+</article>

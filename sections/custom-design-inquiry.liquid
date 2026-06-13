@@ -1,0 +1,179 @@
+{{ 'section-custom-design.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'custom-design.js' | asset_url }}" defer="defer"></script>
+
+<section class="custom-design-inquiry" id="CustomDesignInquiry">
+  <div class="custom-design-inquiry__card">
+    <header class="custom-design-inquiry__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="custom-design-inquiry__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subtext != blank -%}
+        <p class="custom-design-inquiry__subtext">{{ section.settings.subtext | escape }}</p>
+      {%- endif -%}
+    </header>
+
+    <custom-design-inquiry>
+      {%- form 'contact', id: 'CustomDesignForm', class: 'custom-design-inquiry__form' -%}
+        {%- if form.posted_successfully? -%}
+          <div class="custom-design-inquiry__message custom-design-inquiry__message--success" tabindex="-1" autofocus>
+            {{ section.settings.success_message | escape }}
+          </div>
+        {%- elsif form.errors -%}
+          <div class="custom-design-inquiry__message custom-design-inquiry__message--error" role="alert" tabindex="-1" autofocus>
+            {{ 'templates.contact.form.error_heading' | t }}
+          </div>
+        {%- endif -%}
+
+        <div class="custom-design-inquiry__field-group">
+          <span class="custom-design-inquiry__label">{{ 'custom.design.looking_for' | t }}</span>
+          <div class="custom-design-inquiry__options" role="radiogroup" aria-label="{{ 'custom.design.looking_for' | t }}">
+            <label class="custom-design-inquiry__option">
+              <input type="radio" name="contact[Jewelry Type]" value="Engagement Ring" checked>
+              <span class="custom-design-inquiry__option-card">
+                <span class="custom-design-inquiry__option-icon">{{ 'custom-icon-engagement-ring.svg' | inline_asset_content }}</span>
+                <span class="custom-design-inquiry__option-text">Engagement Ring</span>
+              </span>
+            </label>
+            <label class="custom-design-inquiry__option">
+              <input type="radio" name="contact[Jewelry Type]" value="Wedding Band">
+              <span class="custom-design-inquiry__option-card">
+                <span class="custom-design-inquiry__option-icon">{{ 'custom-icon-wedding-band.svg' | inline_asset_content }}</span>
+                <span class="custom-design-inquiry__option-text">Wedding Band</span>
+              </span>
+            </label>
+            <label class="custom-design-inquiry__option">
+              <input type="radio" name="contact[Jewelry Type]" value="Fine Jewelry">
+              <span class="custom-design-inquiry__option-card">
+                <span class="custom-design-inquiry__option-icon">{{ 'custom-icon-fine-jewelry.svg' | inline_asset_content }}</span>
+                <span class="custom-design-inquiry__option-text">Fine Jewelry</span>
+              </span>
+            </label>
+            <label class="custom-design-inquiry__option">
+              <input type="radio" name="contact[Jewelry Type]" value="Not Sure Yet">
+              <span class="custom-design-inquiry__option-card">
+                <span class="custom-design-inquiry__option-icon">{{ 'custom-icon-not-sure.svg' | inline_asset_content }}</span>
+                <span class="custom-design-inquiry__option-text">Not Sure Yet</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="custom-design-inquiry__field-group">
+          <label class="custom-design-inquiry__label" for="CustomDesignBudget">{{ 'custom.design.budget' | t }}</label>
+          <div class="custom-design-inquiry__select-wrap">
+            <select id="CustomDesignBudget" name="contact[Budget]" class="custom-design-inquiry__select" required>
+              <option value="" disabled selected>Select a range</option>
+              <option value="Under $1,000">Under $1,000</option>
+              <option value="$1,000 – $2,500">$1,000 – $2,500</option>
+              <option value="$2,500 – $5,000">$2,500 – $5,000</option>
+              <option value="$5,000 – $10,000">$5,000 – $10,000</option>
+              <option value="$10,000+">$10,000+</option>
+            </select>
+            <span class="custom-design-inquiry__select-icon">{{ 'custom-icon-chevron-down.svg' | inline_asset_content }}</span>
+          </div>
+        </div>
+
+        <div class="custom-design-inquiry__field-group">
+          <label class="custom-design-inquiry__label" for="CustomDesignDetails">{{ 'custom.design.details' | t }}</label>
+          <textarea
+            id="CustomDesignDetails"
+            name="contact[body]"
+            class="custom-design-inquiry__textarea"
+            placeholder="Describe the style, preferred metal, gemstone shape, etc."
+            rows="5"
+          >{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+          <label class="custom-design-inquiry__upload" data-upload-area tabindex="0" role="button">
+            <input type="file" data-upload-input accept="image/png,image/jpeg,image/jpg" multiple>
+            <span class="custom-design-inquiry__option-icon">{{ 'custom-icon-upload.svg' | inline_asset_content }}</span>
+            <p class="custom-design-inquiry__upload-title" data-upload-title data-default-label="{{ 'custom.design.upload_title' | t }}">
+              {{ 'custom.design.upload_title' | t }}
+            </p>
+            <p class="custom-design-inquiry__upload-hint">{{ 'custom.design.upload_hint' | t }}</p>
+          </label>
+        </div>
+
+        <div class="custom-design-inquiry__field-group">
+          <div class="custom-design-inquiry__contact-row">
+            <input
+              type="text"
+              id="CustomDesignFirstName"
+              name="contact[First Name]"
+              class="custom-design-inquiry__input"
+              placeholder="First Name"
+              autocomplete="given-name"
+              value="{% if form['First Name'] %}{{ form['First Name'] }}{% endif %}"
+              required
+            >
+            <input
+              type="text"
+              id="CustomDesignLastName"
+              name="contact[Last Name]"
+              class="custom-design-inquiry__input"
+              placeholder="Last Name"
+              autocomplete="family-name"
+              value="{% if form['Last Name'] %}{{ form['Last Name'] }}{% endif %}"
+              required
+            >
+          </div>
+          <input
+            type="email"
+            id="CustomDesignEmail"
+            name="contact[email]"
+            class="custom-design-inquiry__input"
+            placeholder="Email Address"
+            autocomplete="email"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            required
+            {% if form.errors contains 'email' %}
+              aria-invalid="true"
+            {% endif %}
+          >
+        </div>
+
+        <button type="submit" class="custom-design-inquiry__submit">
+          {{ section.settings.button_label | escape }}
+        </button>
+      {%- endform -%}
+    </custom-design-inquiry>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Design Inquiry",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Begin Your Creation"
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Tell us about your dream piece."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Submit button label",
+      "default": "Submit Inquiry"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thank you for your inquiry. Our design team will be in touch shortly."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Design Inquiry"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,9 @@
+# Exclude from Shopify theme uploads
+.git/
+.cursor/
+node_modules/
+*.log
+.DS_Store
+README.md
+shopify.theme.toml
+.gitignore
