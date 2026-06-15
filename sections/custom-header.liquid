@@ -1,0 +1,452 @@
+{%- liquid
+  assign menu = linklists[section.settings.menu]
+-%}
+<header
+  class="custom-header{% if section.settings.enable_sticky %} custom-header--sticky{% endif %}"
+  style="--ch-bg: {{ section.settings.background_color | escape }}; --ch-fg: {{ section.settings.text_color | escape }}; --ch-logo-w: {{ section.settings.logo_width | escape }}px;"
+  data-custom-header
+  role="banner"
+>
+  <a class="custom-header__skip" href="#MainContent">{{ 'custom.header.skip_to_content' | t }}</a>
+
+  <div class="custom-header__inner custom-container">
+    <details class="custom-header__drawer" data-custom-drawer>
+      <summary class="custom-header__toggle" aria-label="{{ 'custom.header.menu' | t }}">
+        {% render 'custom-icon', icon: 'menu', class: 'custom-header__icon custom-header__icon--menu' %}
+        {% render 'custom-icon', icon: 'close', class: 'custom-header__icon custom-header__icon--close' %}
+      </summary>
+      <div class="custom-header__drawer-panel">
+        <nav class="custom-header__drawer-nav" aria-label="{{ 'custom.header.primary_nav' | t }}">
+          {% render 'custom-header-menu', menu: menu, list_class: 'custom-header__menu custom-header__menu--drawer' %}
+        </nav>
+      </div>
+    </details>
+
+    <a href="{{ routes.root_url }}" class="custom-header__logo" aria-label="{{ shop.name | escape }}">
+      {%- if section.settings.logo != blank -%}
+        {{
+          section.settings.logo
+          | image_url: width: 600
+          | image_tag:
+            loading: 'eager',
+            class: 'custom-header__logo-img',
+            widths: '120, 160, 240, 320, 480, 600',
+            sizes: '(min-width: 990px) 220px, 160px',
+            alt: shop.name
+        }}
+      {%- else -%}
+        <span class="custom-header__logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    <div class="custom-header__actions">
+      {%- if section.settings.show_search -%}
+        <a href="{{ routes.search_url }}" class="custom-header__action" aria-label="{{ 'custom.header.search' | t }}">
+          {% render 'custom-icon', icon: 'search', class: 'custom-header__icon' %}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.show_wishlist and section.settings.wishlist_url != blank -%}
+        <a href="{{ section.settings.wishlist_url }}" class="custom-header__action" aria-label="{{ 'custom.header.wishlist' | t }}">
+          {% render 'custom-icon', icon: 'heart', class: 'custom-header__icon' %}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.show_account -%}
+        <a href="{{ routes.account_url }}" class="custom-header__action" aria-label="{{ 'custom.header.account' | t }}">
+          {% render 'custom-icon', icon: 'user', class: 'custom-header__icon' %}
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.show_cart -%}
+        <a href="{{ routes.cart_url }}" class="custom-header__action custom-header__action--cart" aria-label="{{ 'custom.header.cart' | t }}" data-cart-toggle>
+          {% render 'custom-icon', icon: 'cart', class: 'custom-header__icon' %}
+          <span class="custom-header__cart-count" aria-hidden="true" data-cart-count data-cart-count-bubble {% if cart.item_count == 0 %}hidden{% endif %}>{{ cart.item_count }}</span>
+          <span class="visually-hidden">{{ 'custom.header.cart_count' | t: count: cart.item_count }}</span>
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.show_language and localization.available_languages.size > 1 -%}
+        {%- form 'localization', class: 'custom-header__locale' -%}
+          <label class="visually-hidden" for="CustomHeaderLanguage">{{ 'custom.header.language' | t }}</label>
+          <select
+            id="CustomHeaderLanguage"
+            name="locale_code"
+            class="custom-header__locale-select"
+            data-custom-locale
+          >
+            {%- for language in localization.available_languages -%}
+              <option
+                value="{{ language.iso_code }}"
+                lang="{{ language.iso_code }}"
+                {% if language.iso_code == localization.language.iso_code %}selected{% endif %}
+              >
+                {{ language.iso_code | upcase }}
+              </option>
+            {%- endfor -%}
+          </select>
+          <noscript>
+            <button type="submit" class="custom-header__locale-submit">{{ 'custom.header.update_language' | t }}</button>
+          </noscript>
+        {%- endform -%}
+      {%- endif -%}
+    </div>
+  </div>
+
+  <nav class="custom-header__nav" aria-label="{{ 'custom.header.primary_nav' | t }}">
+    {% render 'custom-header-menu', menu: menu, list_class: 'custom-header__menu custom-header__menu--bar' %}
+  </nav>
+</header>
+
+{% stylesheet %}
+.custom-header {
+  background-color: var(--ch-bg, #000);
+  color: var(--ch-fg, #fff);
+}
+
+.custom-header--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.custom-header__skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  padding: 0.5rem 1rem;
+  background: var(--ch-fg, #fff);
+  color: var(--ch-bg, #000);
+  z-index: 40;
+}
+.custom-header__skip:focus {
+  left: 0;
+}
+
+.custom-header__inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--custom-space-md, 12px);
+  min-height: 64px;
+  padding-block: var(--custom-space-sm, 8px);
+}
+
+.custom-header__logo {
+  grid-column: 2;
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+.custom-header__logo-img {
+  display: block;
+  width: var(--ch-logo-w, 160px);
+  height: auto;
+}
+.custom-header__logo-text {
+  font-family: var(--font-heading-family);
+  font-size: 1.25rem;
+  letter-spacing: var(--custom-letter-spacing-headings, 0);
+}
+
+.custom-header__actions {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: var(--custom-space-sm, 8px);
+}
+.custom-header__action {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: inherit;
+}
+.custom-header__icon {
+  width: 22px;
+  height: 22px;
+}
+.custom-header__cart-count {
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 9999px;
+  background: var(--ch-fg, #fff);
+  color: var(--ch-bg, #000);
+  font-size: 11px;
+  line-height: 18px;
+  text-align: center;
+}
+
+.custom-header__locale-select {
+  background: transparent;
+  color: inherit;
+  border: 1px solid currentColor;
+  border-radius: var(--custom-radius-sm, 4px);
+  padding: 4px 6px;
+  font: inherit;
+  cursor: pointer;
+}
+.custom-header__locale-select option {
+  color: #000;
+}
+
+/* Primary nav (desktop bar) */
+.custom-header__nav {
+  display: none;
+}
+.custom-header__menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.custom-header__menu--bar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--custom-space-lg, 16px);
+  padding-block: var(--custom-space-sm, 8px);
+}
+.custom-header__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: inherit;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: var(--custom-letter-spacing-labels, 1px);
+  font-size: 0.95rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.custom-header__link.is-active,
+.custom-header__link:hover {
+  color: var(--custom-color-accent, currentColor);
+}
+.custom-header__summary {
+  list-style: none;
+}
+.custom-header__summary::-webkit-details-marker {
+  display: none;
+}
+.custom-header__chevron {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+.custom-header__dropdown[open] .custom-header__chevron {
+  transform: rotate(180deg);
+}
+.custom-header__submenu {
+  list-style: none;
+  margin: 0;
+  padding: var(--custom-space-sm, 8px) 0 0;
+}
+.custom-header__sublink {
+  display: block;
+  padding: 6px 0;
+  color: inherit;
+  text-decoration: none;
+}
+.custom-header__sublink.is-active,
+.custom-header__sublink:hover {
+  color: var(--custom-color-accent, currentColor);
+}
+
+/* Mobile drawer */
+.custom-header__drawer {
+  grid-column: 1;
+  justify-self: start;
+}
+.custom-header__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  list-style: none;
+  color: inherit;
+}
+.custom-header__toggle::-webkit-details-marker {
+  display: none;
+}
+.custom-header__icon--close {
+  display: none;
+}
+.custom-header__drawer[open] .custom-header__icon--menu {
+  display: none;
+}
+.custom-header__drawer[open] .custom-header__icon--close {
+  display: block;
+}
+.custom-header__drawer-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  background: var(--ch-bg, #000);
+  padding: var(--custom-space-md, 12px) var(--custom-space-md, 12px) var(--custom-space-lg, 16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+.custom-header__menu--drawer .custom-header__item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.custom-header__menu--drawer .custom-header__link {
+  padding: var(--custom-space-sm, 8px) 0;
+}
+
+@media screen and (min-width: 990px) {
+  .custom-header__drawer {
+    display: none;
+  }
+  .custom-header__nav {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-header__chevron {
+    transition: none;
+  }
+}
+{% endstylesheet %}
+
+{% javascript %}
+(function () {
+  document.querySelectorAll('[data-custom-locale]').forEach(function (select) {
+    select.addEventListener('change', function () {
+      var form = select.closest('form');
+      if (form) form.submit();
+    });
+  });
+
+  document.querySelectorAll('[data-custom-header]').forEach(function (header) {
+    var drawer = header.querySelector('[data-custom-drawer]');
+    if (!drawer) return;
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && drawer.open) {
+        drawer.open = false;
+      }
+    });
+  });
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:custom.header.name",
+  "tag": "section",
+  "class": "custom-header-section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:custom.header.logo.header"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:custom.header.logo.image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 80,
+      "max": 320,
+      "step": 10,
+      "unit": "px",
+      "label": "t:custom.header.logo.width",
+      "default": 160
+    },
+    {
+      "type": "header",
+      "content": "t:custom.header.navigation.header"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "t:custom.header.navigation.menu"
+    },
+    {
+      "type": "header",
+      "content": "t:custom.header.icons.header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "t:custom.header.icons.show_search",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "t:custom.header.icons.show_account",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "t:custom.header.icons.show_cart",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_wishlist",
+      "label": "t:custom.header.icons.show_wishlist",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "wishlist_url",
+      "label": "t:custom.header.icons.wishlist_url"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_language",
+      "label": "t:custom.header.icons.show_language",
+      "info": "t:custom.header.icons.show_language_info",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:custom.header.appearance.header"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "t:custom.header.appearance.sticky",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:custom.header.appearance.background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:custom.header.appearance.text",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:custom.header.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,131 @@
+{% doc %}
+  Renders a product card from a Shopify product object. Title, image, price, and
+  availability come from live store data. The optional tagline reads the product
+  metafield `custom.tagline` (merchant-created) — no copy is hardcoded.
+
+  @param {product} product - The product to render (required)
+  @param {boolean} [show_price] - Show the price (default true)
+  @param {boolean} [show_tagline] - Show the `custom.tagline` metafield (default true)
+  @param {string} [image_ratio] - square | portrait | landscape | natural (default square)
+
+  @example
+  {% render 'custom-product-card', product: product, image_ratio: 'portrait' %}
+{% enddoc %}
+{%- liquid
+  assign show_price = show_price | default: true, allow_false: true
+  assign show_tagline = show_tagline | default: true, allow_false: true
+  assign ratio = image_ratio | default: 'square'
+  assign tagline = product.metafields.custom.tagline.value
+-%}
+{%- if product != blank -%}
+  <a class="custom-card custom-card--{{ ratio }}" href="{{ product.url }}">
+    <div class="custom-card__media">
+      {%- if product.featured_image != blank -%}
+        {{
+          product.featured_image
+          | image_url: width: 800
+          | image_tag:
+            loading: 'lazy',
+            class: 'custom-card__img',
+            widths: '200, 300, 400, 600, 800',
+            sizes: '(min-width: 990px) 400px, 45vw',
+            alt: product.featured_image.alt | default: product.title
+        }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'custom-card__img custom-card__placeholder' }}
+      {%- endif -%}
+      {%- unless product.available -%}
+        <span class="custom-card__badge">{{ 'custom.product.sold_out' | t }}</span>
+      {%- endunless -%}
+    </div>
+    <div class="custom-card__info">
+      <h3 class="custom-card__title">{{ product.title | escape }}</h3>
+      {%- if show_tagline and tagline != blank -%}
+        <p class="custom-card__tagline">{{ tagline | escape }}</p>
+      {%- endif -%}
+      {%- if show_price -%}
+        <div class="custom-card__price">
+          {%- if product.compare_at_price > product.price -%}
+            <span class="custom-card__price-sale">{{ product.price | money }}</span>
+            <s class="custom-card__price-compare">{{ product.compare_at_price | money }}</s>
+            <span class="visually-hidden">{{ 'custom.product.on_sale' | t }}</span>
+          {%- else -%}
+            <span>{{ product.price | money }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </a>
+{%- endif -%}
+
+{% stylesheet %}
+.custom-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--custom-space-sm, 8px);
+  color: inherit;
+  text-decoration: none;
+}
+.custom-card__media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--custom-radius-md, 8px);
+  background: rgb(var(--color-foreground, 18 18 18) / 0.04);
+}
+.custom-card--square .custom-card__media { aspect-ratio: 1 / 1; }
+.custom-card--portrait .custom-card__media { aspect-ratio: 3 / 4; }
+.custom-card--landscape .custom-card__media { aspect-ratio: 4 / 3; }
+.custom-card--natural .custom-card__media { aspect-ratio: auto; }
+.custom-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.custom-card:hover .custom-card__img {
+  transform: scale(1.04);
+}
+.custom-card__badge {
+  position: absolute;
+  top: var(--custom-space-xs, 6px);
+  left: var(--custom-space-xs, 6px);
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: var(--custom-letter-spacing-labels, 1px);
+  background: var(--custom-color-primary, #1a1a1a);
+  color: var(--custom-color-on-primary, #fff);
+  border-radius: var(--custom-radius-sm, 4px);
+}
+.custom-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+.custom-card__title {
+  margin: 0;
+  font-family: var(--font-heading-family);
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+.custom-card__tagline {
+  margin: 0;
+  font-size: 0.875rem;
+  opacity: 0.85;
+}
+.custom-card__price {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  font-weight: 600;
+}
+.custom-card__price-compare {
+  opacity: 0.6;
+}
+@media (prefers-reduced-motion: reduce) {
+  .custom-card__img { transition: none; }
+  .custom-card:hover .custom-card__img { transform: none; }
+}
+{% endstylesheet %}

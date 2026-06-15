@@ -1,0 +1,46 @@
+{
+  "sections": {
+    "main": {
+      "type": "custom-main-product",
+      "blocks": {
+        "feature-0": { "type": "feature", "settings": { "label": "Senza glutine" } },
+        "feature-1": { "type": "feature", "settings": { "label": "Senza lattosio" } },
+        "feature-2": { "type": "feature", "settings": { "label": "100% Vegetale" } },
+        "info-0": { "type": "collapsible", "settings": { "heading": "Caratteristiche" } },
+        "info-1": { "type": "collapsible", "settings": { "heading": "Informazioni aggiuntive" } },
+        "info-2": { "type": "collapsible", "settings": { "heading": "Durata e conservazione" } },
+        "info-3": { "type": "collapsible", "settings": { "heading": "Metodi di utilizzo" } }
+      },
+      "block_order": [
+        "feature-0",
+        "feature-1",
+        "feature-2",
+        "info-0",
+        "info-1",
+        "info-2",
+        "info-3"
+      ],
+      "settings": {}
+    },
+    "trust": {
+      "type": "custom-icon-columns",
+      "blocks": {
+        "col-0": { "type": "column", "settings": { "heading": "Garanzia di freschezza" } },
+        "col-1": { "type": "column", "settings": { "heading": "Spedizione veloce" } },
+        "col-2": { "type": "column", "settings": { "heading": "Consegna gratuita" } },
+        "col-3": { "type": "column", "settings": { "heading": "Pagamenti sicuri" } }
+      },
+      "block_order": ["col-0", "col-1", "col-2", "col-3"],
+      "settings": {}
+    },
+    "recommendations": {
+      "type": "custom-product-recommendations",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "trust",
+    "recommendations"
+  ]
+}

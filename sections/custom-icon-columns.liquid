@@ -1,0 +1,131 @@
+{%- liquid
+  assign s = section.settings
+-%}
+<section
+  class="custom-iconcols"
+  style="--ic-bg: {{ s.background_color | escape }}; --ic-fg: {{ s.text_color | escape }}; --ic-cols: {{ s.columns | escape }};"
+>
+  <div class="custom-container">
+    {%- if s.heading != blank -%}
+      <h2 class="custom-iconcols__heading custom-display">{{ s.heading | escape }}</h2>
+    {%- endif -%}
+    {%- if section.blocks.size > 0 -%}
+      <ul class="custom-iconcols__grid" role="list">
+        {%- for block in section.blocks -%}
+          <li class="custom-iconcols__item" {{ block.shopify_attributes }}>
+            <div class="custom-iconcols__icon">
+              {%- if block.settings.icon != blank -%}
+                {{ block.settings.icon | image_url: width: 96 | image_tag: loading: 'lazy', widths: '48, 72, 96', sizes: '48px', alt: block.settings.heading }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'custom-iconcols__placeholder' }}
+              {%- endif -%}
+            </div>
+            {%- if block.settings.heading != blank -%}
+              <h3 class="custom-iconcols__title">{{ block.settings.heading | escape }}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="custom-iconcols__text">{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% stylesheet %}
+.custom-iconcols {
+  --ic-cols: 4;
+  background-color: var(--ic-bg, #000);
+  color: var(--ic-fg, #fff);
+  padding-block: var(--custom-space-2xl, 32px);
+}
+.custom-iconcols__heading { margin: 0 0 var(--custom-space-lg, 16px); text-align: center; }
+.custom-iconcols__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--custom-space-lg, 16px);
+}
+.custom-iconcols__item { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.custom-iconcols__icon img,
+.custom-iconcols__placeholder { width: 48px; height: 48px; }
+.custom-iconcols__title { margin: 0; font-size: 1rem; text-transform: uppercase; letter-spacing: var(--custom-letter-spacing-labels, 1px); }
+.custom-iconcols__text { margin: 0; font-size: 0.8125rem; opacity: 0.85; }
+@media screen and (min-width: 990px) {
+  .custom-iconcols__grid { grid-template-columns: repeat(var(--ic-cols, 4), 1fr); }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:custom.icon_columns.name",
+  "tag": "section",
+  "class": "custom-iconcols-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:custom.icon_columns.heading"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "t:custom.icon_columns.columns",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:custom.icon_columns.background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:custom.icon_columns.text",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "t:custom.icon_columns.column_block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "t:custom.icon_columns.icon"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:custom.icon_columns.column_heading"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:custom.icon_columns.column_text"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "t:custom.icon_columns.name",
+      "blocks": [
+        { "type": "column" },
+        { "type": "column" },
+        { "type": "column" },
+        { "type": "column" }
+      ]
+    }
+  ]
+}
+{% endschema %}

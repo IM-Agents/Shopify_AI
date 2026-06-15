@@ -1,0 +1,109 @@
+{%- liquid
+  assign s = section.settings
+-%}
+<section
+  class="custom-richtext custom-richtext--{{ s.alignment }}"
+  style="--rt-bg: {{ s.background_color | escape }}; --rt-fg: {{ s.text_color | escape }}; --rt-max: {{ s.max_width | escape }}px;"
+>
+  <div class="custom-container">
+    <div class="custom-richtext__inner">
+      {%- if s.eyebrow != blank -%}
+        <p class="custom-richtext__eyebrow custom-eyebrow">{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h2 class="custom-richtext__heading custom-display">{{ s.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if s.body != blank -%}
+        <div class="custom-richtext__body rte">{{ s.body }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.custom-richtext {
+  background-color: var(--rt-bg, #000);
+  color: var(--rt-fg, #fff);
+  padding-block: var(--custom-space-2xl, 32px);
+}
+.custom-richtext__inner {
+  max-width: var(--rt-max, 980px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--custom-space-md, 12px);
+}
+.custom-richtext__heading {
+  margin: 0;
+}
+.custom-richtext__body {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+.custom-richtext--left .custom-richtext__inner { margin-inline: 0; text-align: left; }
+.custom-richtext--center .custom-richtext__inner { margin-inline: auto; text-align: center; }
+.custom-richtext--right .custom-richtext__inner { margin-inline: 0 0 0 auto; text-align: right; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:custom.rich_text.name",
+  "tag": "section",
+  "class": "custom-rich-text-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:custom.rich_text.eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:custom.rich_text.heading"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "t:custom.rich_text.body",
+      "default": "<p>Il CashewFicio si rivolge a tutti coloro che apprezzano la ricerca e l'alta qualità degli alimenti, persone che ricercano i sapori di una volta reinterpretati in una nuova chiave vegetale.</p><p>I nostri prodotti vengono apprezzati non soltanto da un pubblico Vegano e Vegetariano, ma anche da persone aventi intolleranze, colesterolo alto o persone che scelgono una dieta varia e sana.</p>"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "t:custom.rich_text.alignment",
+      "options": [
+        { "value": "left", "label": "t:custom.rich_text.align_left" },
+        { "value": "center", "label": "t:custom.rich_text.align_center" },
+        { "value": "right", "label": "t:custom.rich_text.align_right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 480,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "label": "t:custom.rich_text.max_width",
+      "default": 980
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:custom.rich_text.background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:custom.rich_text.text",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:custom.rich_text.name"
+    }
+  ]
+}
+{% endschema %}

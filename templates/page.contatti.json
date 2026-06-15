@@ -1,0 +1,31 @@
+{
+  "sections": {
+    "hero": {
+      "type": "custom-image-banner",
+      "settings": { "full_width": true }
+    },
+    "intro": {
+      "type": "custom-rich-text",
+      "settings": { "heading": "Hai domande?", "body": "" }
+    },
+    "methods": {
+      "type": "custom-icon-columns",
+      "blocks": {
+        "m0": { "type": "column", "settings": { "heading": "Telefono" } },
+        "m1": { "type": "column", "settings": { "heading": "Indirizzo" } },
+        "m2": { "type": "column", "settings": { "heading": "Email" } }
+      },
+      "block_order": ["m0", "m1", "m2"],
+      "settings": { "columns": 3 }
+    },
+    "map": {
+      "type": "custom-map",
+      "settings": { "heading": "Dove siamo" }
+    },
+    "contact": {
+      "type": "custom-contact",
+      "settings": { "heading": "Siamo qui per rispondere alle tue domande" }
+    }
+  },
+  "order": ["hero", "intro", "methods", "map", "contact"]
+}

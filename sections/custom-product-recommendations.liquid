@@ -1,0 +1,120 @@
+{%- liquid
+  assign s = section.settings
+-%}
+<section
+  class="custom-recs"
+  style="--cr-bg: {{ s.background_color | escape }}; --cr-fg: {{ s.text_color | escape }}; --cr-cols: {{ s.columns | escape }};"
+  data-custom-recs
+  data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ s.products_count }}"
+>
+  {%- if recommendations.performed and recommendations.products_count > 0 -%}
+    <div class="custom-container">
+      {%- if s.heading != blank -%}
+        <h2 class="custom-recs__heading custom-display">{{ s.heading | escape }}</h2>
+      {%- endif -%}
+      <ul class="custom-recs__grid" role="list">
+        {%- for product in recommendations.products -%}
+          <li class="custom-recs__item">
+            {% render 'custom-product-card', product: product, image_ratio: s.image_ratio %}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
+</section>
+
+{% stylesheet %}
+.custom-recs {
+  --cr-cols: 4;
+  background-color: var(--cr-bg, #000);
+  color: var(--cr-fg, #fff);
+}
+.custom-recs:empty { display: none; }
+.custom-recs__heading { margin: 0 0 var(--custom-space-lg, 16px); }
+.custom-recs__grid {
+  list-style: none;
+  margin: 0;
+  padding-block: var(--custom-space-2xl, 32px);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--custom-space-lg, 16px);
+}
+@media screen and (min-width: 990px) {
+  .custom-recs__grid { grid-template-columns: repeat(var(--cr-cols, 4), 1fr); }
+}
+{% endstylesheet %}
+
+{% javascript %}
+(function () {
+  document.querySelectorAll('[data-custom-recs]').forEach(function (root) {
+    var url = root.getAttribute('data-url');
+    if (!url) return;
+    fetch(url)
+      .then(function (r) { return r.text(); })
+      .then(function (html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var fresh = doc.querySelector('[data-custom-recs] .custom-container');
+        if (fresh) root.innerHTML = fresh.outerHTML;
+      })
+      .catch(function () {});
+  });
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:custom.recommendations.name",
+  "tag": "section",
+  "class": "custom-recs-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:custom.recommendations.heading",
+      "default": "You may also like"
+    },
+    {
+      "type": "range",
+      "id": "products_count",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "label": "t:custom.recommendations.products_count",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "t:custom.recommendations.columns",
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:custom.recommendations.image_ratio",
+      "options": [
+        { "value": "square", "label": "t:custom.recommendations.ratio_square" },
+        { "value": "portrait", "label": "t:custom.recommendations.ratio_portrait" },
+        { "value": "landscape", "label": "t:custom.recommendations.ratio_landscape" },
+        { "value": "natural", "label": "t:custom.recommendations.ratio_natural" }
+      ],
+      "default": "square"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:custom.recommendations.background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:custom.recommendations.text",
+      "default": "#ffffff"
+    }
+  ]
+}
+{% endschema %}

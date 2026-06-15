@@ -1,0 +1,33 @@
+{
+  "sections": {
+    "hero": {
+      "type": "custom-hero",
+      "settings": {}
+    },
+    "intro": {
+      "type": "custom-rich-text",
+      "settings": {}
+    },
+    "shop": {
+      "type": "custom-featured-products",
+      "settings": {
+        "collection": "all"
+      }
+    },
+    "banner": {
+      "type": "custom-image-banner",
+      "settings": {}
+    },
+    "blog": {
+      "type": "custom-blog-posts",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "intro",
+    "shop",
+    "banner",
+    "blog"
+  ]
+}
