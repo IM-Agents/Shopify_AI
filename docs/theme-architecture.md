@@ -1,51 +1,76 @@
 # Theme Architecture
 
-## Base Theme Strategy
+## Template Map
 
-Use the latest stable Shopify Dawn theme as the foundation. Keep Dawn's core architecture intact unless there is a clear reason to extend it. This preserves Shopify update compatibility, maintainability, and Theme Editor behavior.
+| Experience | Shopify Template / Route | Notes |
+| --- | --- | --- |
+| Homepage | `index.json` | Ordered homepage sections from PRD |
+| Collection/category | `collection.json` | Supports category hero, filters, quick pills, comparison |
+| Product detail | `product.json` | Quote-first PDP with gallery and sticky bottom bar |
+| Request quote | `page.request-quote.json` | Multi-step quote wizard |
+| Blog/knowledge hub | `blog.json`, `article.json` | Industrial Knowledge Hub content |
+| Static pages | `page.json` | About, Contact, Privacy, Terms, Sitemap |
 
-## Recommended Folder Usage
+## Section Plan
 
-- `layout/` — base theme layout files such as `theme.liquid`.
-- `templates/` — JSON templates for Online Store 2.0 page composition.
-- `sections/` — reusable configurable sections for page building.
-- `snippets/` — reusable Liquid fragments for cards, icons, media, swatches, badges, tracking helpers.
-- `assets/` — modular CSS, minimal JavaScript, icons, and static assets.
-- `config/` — theme settings schema and merchant-facing presets.
-- `locales/` — translation strings and merchant-facing labels.
+| Section | Purpose | Dynamic Source |
+| --- | --- | --- |
+| `announcement-bar` | Shipping, phone, established copy | Theme settings |
+| `main-header` | Logo, nav, search/wishlist/account icons | Theme settings + menus |
+| `mega-menu` | Category and subcategory navigation | Menus, collections, metaobjects |
+| `hero-industrial` | Homepage Hero V6 | Theme section settings |
+| `brand-marquee` | Partner logo strip | Blocks or brand metaobjects |
+| `category-grid` | Shop by Category cards | Collections or category metaobjects |
+| `featured-products` | Product card strip/grid | Product list/collection picker |
+| `why-choose-us` | Feature cards | Blocks/metaobjects |
+| `industries-served` | Industry vertical grid | Blocks/metaobjects |
+| `testimonials` | Customer quotes | Testimonial metaobjects |
+| `shipping-promo` | Truck/free-shipping visual CTA | Section settings |
+| `knowledge-hub-preview` | Blog/article cards | Shopify blog articles |
+| `collection-product-finder` | Guided filter tool | Product metafields/facets |
+| `collection-grid` | Products, sorting, view switch | Shopify collection object |
+| `comparison-bar-modal` | Compare up to 3 products | Product metafields + JS state |
+| `product-main-quote` | PDP gallery/specs/quote action | Product object/metafields |
+| `product-sticky-quote-bar` | Sticky PDP actions | Product object/metafields |
+| `quote-form-wizard` | RFQ capture | Shopify form/app/integration |
+| `site-footer` | Footer links and legal | Menus + Theme settings |
 
-## Architecture Principles
+## Snippet Plan
 
-1. **Section-first:** Build reusable sections rather than one-off page code.
-2. **Snippet reuse:** Product cards, collection cards, buttons, media, badges, and form elements should be shared.
-3. **Theme Editor friendly:** Expose settings for headings, media, text, buttons, colors, spacing, product/collection references, and layout options.
-4. **Dynamic sources:** Support metafields/metaobjects where content is structured or reusable.
-5. **No hardcoded merchant content:** Content should be editable through sections, theme settings, product/collection data, metafields, or metaobjects.
-6. **Performance by default:** Avoid unnecessary libraries, duplicate CSS, heavy scripts, and blocking resources.
-7. **Accessibility by default:** Use semantic HTML, keyboard support, focus states, ARIA only when needed, and readable contrast.
+- `product-card.liquid`
+- `breadcrumb.liquid`
+- `responsive-image.liquid`
+- `icon.liquid`
+- `cta-button.liquid`
+- `spec-table.liquid`
+- `brand-logo-card.liquid`
+- `article-card.liquid`
+- `comparison-product-cell.liquid`
 
-## Naming Conventions
+## JavaScript Modules
 
-- Sections: `custom-hero-banner.liquid`, `custom-featured-products.liquid`, `custom-testimonials.liquid`
-- Snippets: `custom-product-card.liquid`, `custom-button.liquid`, `custom-responsive-image.liquid`
-- CSS: `section-custom-hero-banner.css`, `component-custom-card.css`
-- JavaScript: `custom-cart-drawer.js`, `custom-slider.js` only when native/CSS behavior is insufficient
+Use progressive enhancement; HTML should remain useful if JavaScript fails.
 
-## Template Strategy
+- `mega-menu.js` — hover/click/focus menu behavior.
+- `brand-marquee.js` — optional marquee velocity behavior with reduced-motion guard.
+- `collection-filters.js` — filter, reset, sort, view toggle behavior; use Section Rendering API if applicable.
+- `product-comparison.js` — selected product state, sticky bar, modal, max-3 validation.
+- `product-gallery.js` — thumbnail switching and accessible gallery behavior.
+- `sticky-product-bar.js` — PDP scroll-triggered bottom bar.
+- `quote-wizard.js` — multi-step validation, live summary, URL-prefill support.
 
-Use JSON templates for page composition:
+## Content Management Rules
 
-- `index.json` for home page
-- `collection.json` and specialized collection templates if Figma requires variants
-- `product.json` and specialized product templates if product types require unique layout
-- `page.contact.json`
-- `page.landing.json`
-- `search.json`
-- `cart.json` where cart page is used in addition to cart drawer
+- No product, price, SKU, spec, testimonial, logo, or article content should be hardcoded in Liquid templates.
+- All visible content must be editable through Shopify Admin, products, collections, metafields, metaobjects, menus, blogs, pages, Theme Editor settings, or locale files.
+- Images should use Shopify image pickers, product/collection media, or file-reference metafields.
+- UI must be responsive across mobile, tablet, and desktop.
 
-## Data Strategy
+## Accessibility Requirements
 
-- Use Shopify product/collection/customer/cart objects for native commerce data.
-- Use product metafields for structured product details, badges, care instructions, ingredients/specs, comparison values, and custom tabs.
-- Use metaobjects for testimonials, FAQ libraries, press logos, store benefits, reusable landing content, or structured brand content.
-- Use dynamic sources in section settings so merchants can connect data without code changes.
+- Semantic landmarks for header, main, nav, footer.
+- Buttons for interactive controls, links for navigation.
+- Focus trap and Escape close for comparison modal.
+- Keyboard operation for mega menu.
+- Reduced-motion support for marquee and scroll animations.
+- Alt text for logos, product images, and promo imagery.

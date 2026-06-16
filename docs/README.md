@@ -1,48 +1,44 @@
-# Shopify Dawn Theme Customization — Documentation Index
+# Guan Yiac Hardware — B2B/B2C Industrial E-Commerce Documentation
 
-## Project Summary
+## Project Overview
 
-Build a production-ready Shopify storefront using the latest stable Shopify Dawn theme as the base. The implementation must convert the provided Figma designs into a merchant-friendly, responsive, accessible, performant Online Store 2.0 theme with reusable sections and maintainable Liquid architecture.
+This documentation defines the build plan for the **Guan Yiac Hardware** industrial e-commerce storefront. Guan Yiac Hardware is a Philippine industrial hardware supplier established in **1943**, serving B2B and B2C buyers with a catalogue of **20,000+ SKUs** across conveyor components, industrial hoses, power transmission parts, and other industrial hardware.
+
+The storefront must support quote-first procurement, searchable product discovery, brand trust signals, comparison tools, catalogue downloads, and persistent regional shipping messaging for Metro Manila buyers.
+
+## Primary Goals
+
+- Make 20,000+ products discoverable through category navigation, search, filters, and collection pages.
+- Prioritize **Request Quote** conversion over direct add-to-cart purchasing.
+- Reinforce trust using brand partners, “Established 1943”, customer testimonials, and industry expertise.
+- Support repeat buyer workflows with wishlist, account access, product comparison, and catalogue downloads.
+- Keep the free-shipping threshold visible on every page: **Free Shipping on orders ₱5,000+ in Metro Manila**.
 
 ## Technology / Stack
 
-- **Platform:** Shopify Online Store 2.0
-- **Base Theme:** Shopify Dawn theme, latest stable version
-- **Templating:** Shopify Liquid
-- **Templates:** JSON templates where applicable
-- **Styling:** Modular CSS using Dawn conventions plus project-specific component CSS
-- **JavaScript:** Minimal vanilla JavaScript, deferred where possible
-- **Data:** Shopify objects, metafields, metaobjects, dynamic sources
-- **Analytics Support:** Google Analytics, Google Tag Manager, Meta Pixel event readiness
-- **Target Browsers:** Latest Chrome, Safari, Firefox, Edge
-- **Responsive Targets:** Mobile 375px+, tablet 768px+, laptop 1024px+, desktop 1440px+
+Recommended implementation stack for this repository:
 
-## Documentation Files
+- **Shopify Online Store 2.0** storefront architecture
+- **Liquid** templates, sections, snippets, and JSON templates
+- **Shopify Theme Editor** settings and section/block schema
+- **Shopify metafields/metaobjects** for structured content, brands, industries, testimonials, blog cards, product specs, and quote metadata
+- **Shopify product/collection data** for catalogue, categories, variants, media, SKUs, and filters
+- **Shopify Search & Discovery** for product filters/facets where possible
+- **JavaScript** for progressive enhancement: mega menu, comparison modal, sticky bars, horizontal scrollers, and form wizard behavior
+- **CSS Grid/Flexbox + responsive CSS tokens** for mobile, tablet, and desktop layouts
+- Optional: Shopify Forms, customer accounts, or a quote-management app/integration for B2B RFQ workflow
 
-1. [Project Brief](./project-brief.md)
-2. [Requirements & Scope](./requirements-and-scope.md)
-3. [Theme Architecture](./theme-architecture.md)
-4. [Sections & Components Plan](./sections-and-components.md)
-5. [Implementation Plan](./implementation-plan.md)
-6. [Performance, Accessibility, SEO & Analytics](./performance-accessibility-seo-analytics.md)
-7. [QA, Acceptance Criteria & Test Plan](./qa-acceptance-test-plan.md)
-8. [Backlog, Milestones & RAID Log](./backlog-milestones-raid.md)
+## Documentation Index
 
-## Primary Acceptance Criteria
+- [Project Brief](./project-brief.md)
+- [Functional Requirements](./functional-requirements.md)
+- [Implementation Plan](./implementation-plan.md)
+- [Theme Architecture](./theme-architecture.md)
+- [Data Model, Metafields, and APIs](./data-model-and-api.md)
+- [Backlog and Acceptance Criteria](./backlog.md)
+- [RAID Log](./raid-log.md)
+- [QA and Handover Plan](./qa-handover.md)
 
-- Dawn theme is used as the foundation.
-- All provided Figma screens are implemented with ≥95% design accuracy.
-- UI is fully responsive across mobile, tablet, laptop, and desktop.
-- All configurable content is merchant-editable in the Shopify Theme Editor.
-- Reusable Online Store 2.0 sections are used wherever possible.
-- Shopify Liquid and theme best practices are followed.
-- Lighthouse Performance target is ≥85.
-- Accessibility target is ≥90.
-- SEO structure and schema support are included.
-- Theme is production-ready, maintainable, and scalable.
+## Delivery Definition
 
-## Key Assumptions
-
-- Final Figma files, brand assets, fonts, imagery, and content will be supplied before development starts.
-- Checkout customization, Shopify Functions, headless commerce, ERP integrations, and custom app development are out of scope unless separately approved.
-- Third-party analytics scripts will use merchant-provided account IDs and should be configured through Shopify settings, theme settings, or approved snippets.
+The build is complete when all required pages match the supplied Figma direction, work responsively across mobile/tablet/desktop, render catalogue data dynamically, support quote-first conversion, and allow non-developers to update key content through Shopify Admin, Theme Editor, metafields, metaobjects, products, collections, and blog content.

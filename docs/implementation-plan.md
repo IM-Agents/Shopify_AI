@@ -1,77 +1,128 @@
 # Implementation Plan
 
-## Phase 1 — Discovery & Setup
+## Delivery Approach
+
+Build the storefront as a Shopify Online Store 2.0 theme enhancement using reusable sections, shared snippets, dynamic Shopify data, and progressive JavaScript. Work should happen on an unpublished duplicate theme until QA and stakeholder signoff are complete.
+
+## Milestones
+
+### Milestone 1 — Discovery, Audit, and Content Mapping
 
 Deliverables:
-- Confirm latest stable Dawn base version.
-- Confirm Figma access, frames, tokens, assets, fonts, and responsive variants.
-- Audit existing theme files and identify reusable Dawn components.
-- Define final page/template list.
 
-Exit criteria:
-- Source design and assets are available.
-- Theme branch is ready.
-- Section/component inventory is approved.
+- Existing theme audit.
+- Figma section/component inventory.
+- Product taxonomy confirmation.
+- Content/source mapping for all visible text, images, icons, logos, and cards.
+- Product specification and filter model definition.
 
-## Phase 2 — Foundation
+Acceptance criteria:
 
-Deliverables:
-- Theme settings schema updates.
-- Global CSS tokens for colors, typography, spacing, breakpoints.
-- Shared snippets for buttons, images, cards, badges.
-- Header, announcement bar, footer, mobile menu, mega menu.
+- Every Figma section has a target Shopify section/snippet/template.
+- Every visible content item has an owner and source.
+- Unknown content items are listed in RAID log.
 
-Exit criteria:
-- Core layout is responsive.
-- Navigation works on desktop and mobile.
-- Theme Editor controls are available for global content.
-
-## Phase 3 — Page & Section Buildout
+### Milestone 2 — Global Theme Foundation
 
 Deliverables:
-- Home page sections.
-- Collection page layout and filters compatibility.
-- Product page layout, variant selection, inventory states, media gallery, product tabs/metafields.
-- Search page layout.
-- Cart page and/or cart drawer customization.
-- Account/contact/static/landing templates.
 
-Exit criteria:
-- All Figma screens are represented in Shopify templates/sections.
-- Merchant-editable content exists for each configurable area.
-- Edge cases are handled.
+- Global color, typography, spacing, radius, and button tokens.
+- Responsive layout utilities.
+- Shared top banner, header, mega menu, breadcrumb, product card, and footer.
+- Accessibility baseline for navigation and focus states.
 
-## Phase 4 — Optimization
+Acceptance criteria:
 
-Deliverables:
-- Responsive image implementation.
-- Lazy loading and proper image sizes.
-- CSS cleanup and modularization.
-- Minimal/deferred JavaScript.
-- Accessibility pass.
-- SEO/schema pass.
-- Analytics event readiness.
+- Shared components are reusable across homepage, collection, PDP, and quote page.
+- Mobile/tablet/desktop behavior is defined and implemented.
 
-Exit criteria:
-- Lighthouse Performance ≥85.
-- Accessibility ≥90.
-- No critical console errors.
-
-## Phase 5 — QA & Delivery
+### Milestone 3 — Homepage Build
 
 Deliverables:
-- Browser/device QA report.
-- Screenshots for desktop, tablet, mobile.
-- Theme setup documentation.
-- Custom sections and functionality documentation.
-- Assumptions and limitations documentation.
-- Final source code in Git repository.
 
-Exit criteria:
-- Acceptance criteria are met.
-- Client/merchant can update content without code changes.
-- Production deployment checklist is complete.
+- Hero V6.
+- Brand partner marquee.
+- Shop by Category.
+- Featured Products.
+- Why Choose Us.
+- Industries We Serve.
+- Testimonials.
+- Free Shipping promotion banner.
+- Industrial Knowledge Hub preview.
 
-## Recommended Alternative Consideration
+Acceptance criteria:
 
-Dawn is mandatory and should remain the base. No alternative base theme is recommended for this request because Dawn best satisfies Shopify Online Store 2.0 compatibility, performance, and maintainability requirements.
+- Homepage follows required section order.
+- Editable content is exposed through Theme Editor, products, collections, blogs, or metaobjects.
+- Animation respects reduced-motion settings.
+
+### Milestone 4 — Collection Experience
+
+Deliverables:
+
+- Category hero and breadcrumb.
+- Product Finder filter UI.
+- Quick filter pills.
+- Sort and view options.
+- Responsive product grid/list.
+- Inline ad placements.
+- Product comparison sticky bar and modal.
+
+Acceptance criteria:
+
+- Filters work from live Shopify facets/metafields where possible.
+- Up to 3 products can be compared.
+- Grid remains usable with large catalogues.
+
+### Milestone 5 — Product Detail and Quote Flow
+
+Deliverables:
+
+- PDP image gallery and spec layout.
+- Specification selector dropdown.
+- Quote/inquiry action area.
+- Sticky bottom quote/download bar.
+- Related products.
+- Quote wizard page with live summary.
+
+Acceptance criteria:
+
+- PDP request quote button can prefill quote page product/SKU context.
+- Required quote fields validate.
+- Quote submissions are trackable and routed to the business owner.
+
+### Milestone 6 — QA, Performance, and Handover
+
+Deliverables:
+
+- Cross-device QA report.
+- Accessibility review.
+- Performance optimization pass.
+- Content management handover guide.
+- Launch checklist.
+
+Acceptance criteria:
+
+- No critical responsive, console, accessibility, or form-submission defects.
+- Content owner can update common storefront content without code.
+
+## Recommended Build Sequence
+
+1. Lock taxonomy and product metafield definitions.
+2. Build global settings and CSS tokens.
+3. Build shared components.
+4. Build homepage sections.
+5. Build collection template and filters.
+6. Build comparison behavior.
+7. Build PDP quote/download workflow.
+8. Build request quote wizard.
+9. Load sample data and validate with representative products.
+10. QA across devices and hand over.
+
+## Responsive Requirements
+
+All pages and sections must be responsive across:
+
+- Mobile: stacked layouts, touch-friendly controls, compact header/menu.
+- Tablet: balanced two-column where space allows, horizontally scrollable carousels where appropriate.
+- Desktop: full mega menu, multi-column grids, two-column PDP, and full comparison modal.
