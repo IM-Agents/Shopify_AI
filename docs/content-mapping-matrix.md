@@ -2,73 +2,59 @@
 
 ## Purpose
 
-This matrix maps the Guan Yiac Hardware PRD/Figma content to Shopify-managed sources so implementation avoids hardcoded storefront content wherever practical.
+This matrix maps every Figma section/component/node to a concrete dynamic Shopify implementation source. It must be completed against the live Figma node tree before each section is built and signed off section-by-section.
 
-## Global / Shared Content
+## Mapping Rules
 
-| Content / Component | Required Content | Recommended Shopify Source | Notes |
-| --- | --- | --- | --- |
-| Top banner | Free shipping ₱5,000+ Metro Manila, phone, Established 1943 | Theme settings / locale keys | Persistent on all pages |
-| Logo | Guan Yiac wordmark + vector icon | Theme image picker | Include mobile/desktop sizing controls |
-| Navigation | Home, Our Products, About, Contact | Shopify menus | Our Products triggers mega menu |
-| Mega menu categories | Conveyor Components, Industrial Hose, Power Transmission, Other | Shopify menu + collections/metaobjects | Right panel changes by active category |
-| Breadcrumbs | Home / Category / Subcategory | Generated from routes/collection/product data | Use accessible nav landmark |
-| Footer tagline | Supplying Philippine Industry Since 1943 | Theme settings | Shared footer component |
-| Footer links | Products / Company / Support | Shopify menus | Editable by admin |
-| Legal links | Privacy Policy, Terms, Sitemap | Shopify pages/menus | Bottom bar |
+- Do not invent content values.
+- Do not hardcode visible strings.
+- Do not hardcode asset paths.
+- Preserve supplied hyperlinks exactly.
+- Use Shopify objects for products, collections, menus, filtering, and forms.
+- Use Theme Editor settings, blocks, metafields, metaobjects, and locale keys for editable UI content.
+- Ensure each mapped section is responsive across mobile, tablet, and desktop.
 
-## Homepage Content
+## Initial Mapping Framework
 
-| Section | Content | Source | Notes |
-| --- | --- | --- | --- |
-| Hero V6 | Headline, sub-headline, body, CTAs, background image | Section settings | Implement V6 final |
-| Brand marquee | Mitsubishi, Hitachi, Lovejoy, Goodyear, Pulton, SKF, THB, Toyox | Brand Partner metaobjects or section blocks | Logo files client-provided |
-| Shop by Category | Heading, subheading, category cards | Section settings + collections | Cards should link to collections |
-| Featured Products | Product cards and catalogue CTA | Product list/collection picker + file setting | Sample products from PRD if present in catalogue |
-| Why Choose Us | Headline and feature cards | Section blocks/metaobjects | Icons editable |
-| Industries We Serve | 5 industry cards | Industry metaobjects | Final sectors to confirm |
-| Testimonials | 3 visible testimonials | Testimonial metaobjects | Final quotes client-provided |
-| Shipping promo | Truck imagery and CTA copy | Section settings | Reinforces free shipping threshold |
-| Knowledge Hub | Blog article cards | Shopify blog/articles | Two-column desktop grid |
+| Figma element / component | Shopify implementation | Data source | Dynamic controls | Acceptance criteria |
+|---|---|---|---|---|
+| Header / navigation | Header section | Shopify menus/linklists + settings | Menu selection, logo image picker, sticky toggle, announcement visibility, color scheme | All nav items editable through Shopify menus; logo/link/settings editable in Theme Editor. |
+| Logo | Header setting | Content > Files via image picker | Image, alt text, logo link | No hardcoded logo asset. |
+| Hero section | Dynamic hero section | Section settings + image pickers | Heading, subtext, rich text, CTA label/link, desktop image, mobile image, alignment, overlay, color scheme | All text/images/links editable; responsive crops match Figma. |
+| Promo / USP row | Section with repeatable blocks or metaobject list | Blocks or metaobjects | Icon image picker, label, supporting text, link, visibility | Items reorderable/editable; icons sourced dynamically. |
+| Featured collection grid | Collection list/grid section | Shopify collection objects | Collection picker/list, product count, layout, card style | Collections chosen in Theme Editor; products render from live store data. |
+| Product card | Reusable card snippet | Shopify product object + metafields | Badge rules, swatch source, image ratio, quick action toggle | Title/price/media/availability dynamic; badges and swatches data-driven. |
+| Collection page | OS 2.0 collection template | `collection` object | Sections, sorting, pagination/infinite setting, filter placement | Product grid and collection content render from live collection data. |
+| Filters sidebar/drawer | Dynamic facets section/snippet | `collection.filters` / `search.filters` | Facet display mode, clear all text via locale/settings, mobile drawer behavior | Facets are generated from Search & Discovery, not static markup. |
+| Tabs/accordions | Blocks or metaobject list | Blocks/metaobjects/product metafields | Item heading, rich text/body, default open state, icon | Repeatable and editable without code. |
+| Testimonials / reviews | Blocks, review app block, or metaobjects | Metaobjects/app data/settings | Quote, author, rating, avatar image picker, ordering | No static testimonial content; source chosen during audit. |
+| Banner / CTA strip | Dynamic section | Section settings | Text, rich text, CTA label/link, background image/color, visibility | All content and link editable. |
+| Newsletter | Section with Shopify customer form | Settings + locale keys | Heading, copy, placeholder, button label, success/error copy | Form labels/messages dynamic and accessible. |
+| Footer | Footer section | Shopify menus/linklists + settings | Columns, menus, logo, social icons, legal copy, payment icon toggles | Menus and legal/social content editable. |
+| Social icons | Footer/header block list or settings | Content > Files via image picker + URL settings | Icon, label, URL, visibility | Icon and destination editable; no hardcoded asset path. |
+| Collection/product badges | Product metafields, tags, or configured rules | Product data/metafields | Badge label, color, conditions | Badges render from store data or configured logic only. |
+| Color system | Global settings | `settings_schema.json` | Color tokens and schemes | CSS variables populated from Theme Editor settings. |
+| Typography | Global settings | Shopify font picker / file reference for custom fonts | Font family, base size, scale, line-height, letter spacing | Figma type scale matched and editable. |
+| Buttons | Global settings + section options | Theme settings + section settings | Label, URL, style variant, state tokens | Button content and destinations editable; style variants match Figma. |
+| Images and decorative media | Section/block image picker or file-reference metafield | Content > Files | Desktop/mobile images, alt text, crop/layout | Images use responsive Shopify image filters and do not cause layout shift. |
 
-## Collection Page Content
+## Figma Node Completion Checklist
 
-| Area | Content | Source | Notes |
-| --- | --- | --- | --- |
-| Category hero | Headline and banner image | Collection metafields | Example: Reliable Industrial Hose Pipes for Every Application |
-| Product Finder | Size, pressure rating, material, etc. | Product metafields/Search & Discovery facets | Two-row desktop filter grid |
-| Quick filter pills | All, Air Hose, Hydraulic, Steam, Food Grade, Chemical | Collection metafields/menu/facet links | Horizontally scrollable on mobile |
-| Sort/view bar | Featured, Price Low–High, Newest; grid/list | Shopify sorting + JS/CSS state | Maintain filter state |
-| Product grid | Product cards | Shopify collection products | Inline ad every ~8–12 cards when configured |
-| Inline ads | Promo blocks | Inline Ad metaobjects | Optional and configurable |
-| Comparison modal | Image, name, spec rows | Product media/title/metafields | Max 3 products |
+For each Figma node, record:
 
-## Product Detail Page Content
+- Figma page/frame name.
+- Node/component name.
+- Desktop/tablet/mobile state.
+- Shopify file/section/snippet/template target.
+- Dynamic source.
+- Theme Editor controls.
+- Required metafields/metaobjects.
+- Asset filename/reference.
+- Link destination.
+- Accessibility note.
+- QA status.
+- Signoff owner/date.
 
-| Area | Content | Source | Notes |
-| --- | --- | --- | --- |
-| Product gallery | Primary image + thumbnails | Product media | Responsive images |
-| Product info | Name, SKU, specs, selector | Product object, variants, metafields | Quote-focused |
-| Key highlights | Spec highlights | Product metafields | Structured content preferred |
-| Sticky bottom bar | Thumbnail, product name, Request Quote, Download Catalog | Product data + file metafield | Appears on scroll |
-| Related products | Brown Conveyor, V-BELT SPB/XPB, Black Neoprene sample set | Product recommendations or selected product list | Dynamic product source |
-| Knowledge Hub | Article cards | Shopify blog/articles | Shared section |
+## Signoff Requirement
 
-## Request Quote Page Content
-
-| Area | Content | Source | Notes |
-| --- | --- | --- | --- |
-| Form fields | Product/SKU, quantity, specs, company, contact, email/phone, delivery address, notes | Shopify form/app/custom integration | Fields need final sales-team validation |
-| Product prefill | Product name/SKU/specs | URL params from PDP/collection | Improves conversion |
-| Live summary | Selected product/spec summary | JavaScript progressive enhancement | Right column desktop, stacked mobile |
-| Submission routing | Quote lead details | Shopify form notification/app/webhook | Final routing decision required |
-
-## Content Dependencies
-
-- Final 20,000+ SKU catalogue with product specs.
-- Brand partner logo assets.
-- Hero/truck/industrial imagery source files.
-- Customer testimonials.
-- Industrial Knowledge Hub articles.
-- Industry vertical list.
-- Catalogue PDFs/files for download CTAs.
+A section should not enter development until its mapping row has enough detail for a developer to implement it without inventing content or making hardcoded assumptions.

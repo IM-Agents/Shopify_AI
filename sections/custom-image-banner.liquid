@@ -1,0 +1,235 @@
+{%- liquid
+  assign s = section.settings
+  assign has_content = false
+  if s.heading != blank or s.text != blank or s.button_label != blank
+    assign has_content = true
+  endif
+-%}
+<section
+  class="custom-banner custom-banner--align-{{ s.content_alignment }}{% unless s.full_width %} custom-banner--contained{% endunless %}"
+  style="--cb-min-h: {{ s.min_height | escape }}px; --cb-overlay: {{ s.overlay_opacity | escape }}; --cb-color: {{ s.content_color | escape }}; --cb-max-w: {{ s.max_width | escape }}px;"
+>
+  {%- capture banner_inner -%}
+    <div class="custom-banner__media">
+      {%- if s.image != blank -%}
+        {{
+          s.image
+          | image_url: width: 2000
+          | image_tag:
+            loading: 'lazy',
+            class: 'custom-banner__img custom-banner__img--desktop',
+            widths: '600, 900, 1200, 1600, 2000',
+            sizes: '100vw',
+            alt: s.image.alt | default: ''
+        }}
+        {%- if s.image_mobile != blank -%}
+          {{
+            s.image_mobile
+            | image_url: width: 900
+            | image_tag:
+              loading: 'lazy',
+              class: 'custom-banner__img custom-banner__img--mobile',
+              widths: '400, 600, 750, 900',
+              sizes: '100vw',
+              alt: s.image_mobile.alt | default: ''
+          }}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'custom-banner__img custom-banner__placeholder' }}
+      {%- endif -%}
+
+      {%- if s.show_overlay -%}<span class="custom-banner__scrim" aria-hidden="true"></span>{%- endif -%}
+
+      {%- if has_content -%}
+        <div class="custom-banner__content custom-container">
+          <div class="custom-banner__content-inner">
+            {%- if s.heading != blank -%}<h2 class="custom-banner__heading custom-display">{{ s.heading | escape }}</h2>{%- endif -%}
+            {%- if s.text != blank -%}<div class="custom-banner__text rte">{{ s.text }}</div>{%- endif -%}
+            {%- if s.button_label != blank -%}
+              <span class="custom-btn custom-btn--primary custom-banner__btn">{{ s.button_label | escape }}</span>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endcapture -%}
+
+  {%- if s.link != blank -%}
+    <a class="custom-banner__frame" href="{{ s.link }}"{% if s.heading != blank %} aria-label="{{ s.heading | escape }}"{% endif %}>{{ banner_inner }}</a>
+  {%- else -%}
+    <div class="custom-banner__frame">{{ banner_inner }}</div>
+  {%- endif -%}
+</section>
+
+{% stylesheet %}
+.custom-banner {
+  --cb-overlay: 0;
+}
+.custom-banner--contained .custom-banner__frame {
+  max-width: var(--cb-max-w, 1444px);
+  margin-inline: auto;
+}
+.custom-banner__frame {
+  display: block;
+  color: var(--cb-color, #fff);
+  text-decoration: none;
+}
+.custom-banner__media {
+  position: relative;
+  display: grid;
+  min-height: var(--cb-min-h, 0);
+}
+.custom-banner__media > * {
+  grid-area: 1 / 1;
+}
+.custom-banner__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.custom-banner__scrim {
+  background: rgb(0 0 0 / var(--cb-overlay, 0));
+}
+.custom-banner__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-block: var(--custom-space-xl, 24px);
+}
+.custom-banner__content-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--custom-space-md, 12px);
+  max-width: 40rem;
+}
+.custom-banner__img--mobile {
+  display: none;
+}
+@media screen and (max-width: 749px) {
+  .custom-banner__media:has(.custom-banner__img--mobile) .custom-banner__img--desktop {
+    display: none;
+  }
+  .custom-banner__media:has(.custom-banner__img--mobile) .custom-banner__img--mobile {
+    display: block;
+  }
+}
+.custom-banner--align-center .custom-banner__content { justify-content: center; }
+.custom-banner--align-center .custom-banner__content-inner { text-align: center; align-items: center; }
+.custom-banner--align-right .custom-banner__content { justify-content: flex-end; }
+.custom-banner--align-right .custom-banner__content-inner { text-align: right; align-items: flex-end; }
+.custom-banner--align-left .custom-banner__content { justify-content: flex-start; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:custom.banner.name",
+  "tag": "section",
+  "class": "custom-image-banner-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:custom.banner.images_header"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:custom.banner.image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "t:custom.banner.image_mobile"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "label": "t:custom.banner.max_width",
+      "default": 1440
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:custom.banner.full_width",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "min": 0,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "label": "t:custom.banner.min_height",
+      "default": 0
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:custom.banner.link"
+    },
+    {
+      "type": "header",
+      "content": "t:custom.banner.content_header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:custom.banner.heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:custom.banner.text"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:custom.banner.button_label"
+    },
+    {
+      "type": "color",
+      "id": "content_color",
+      "label": "t:custom.banner.content_color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "t:custom.banner.alignment",
+      "options": [
+        { "value": "left", "label": "t:custom.banner.align_left" },
+        { "value": "center", "label": "t:custom.banner.align_center" },
+        { "value": "right", "label": "t:custom.banner.align_right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_overlay",
+      "label": "t:custom.banner.show_overlay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 0.8,
+      "step": 0.1,
+      "label": "t:custom.banner.overlay_opacity",
+      "default": 0.3
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:custom.banner.name"
+    }
+  ]
+}
+{% endschema %}

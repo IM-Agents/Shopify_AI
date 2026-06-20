@@ -1,0 +1,215 @@
+{
+  "sections": {
+    "hero": {
+      "type": "custom-hero",
+      "settings": {
+        "eyebrow": "",
+        "heading": "Trusted Industrial Hardware Supplier of Philippines",
+        "subtext": "<p>From precision bearings to heavy-duty hoses — 20,000+ industrial products with same-day delivery in Metro Manila.</p>",
+        "button_label": "Explore Our Collection",
+        "button_link": "shopify://collections/all",
+        "button_2_label": "Request a Quote",
+        "button_2_link": "shopify://pages/request-quote",
+        "content_alignment": "left",
+        "content_position": "center",
+        "show_overlay": true,
+        "overlay_opacity": 0.35,
+        "content_color": "#ffffff",
+        "full_width": true,
+        "min_height": 600,
+        "image_max_width": 1600,
+        "background_image": "shopify://shop_images/hero-background.png"
+      }
+    },
+    "brands": {
+      "type": "custom-brand-marquee",
+      "blocks": {
+        "b1": { "type": "brand", "settings": { "name": "Mitsubishi" } },
+        "b2": { "type": "brand", "settings": { "name": "Hitachi" } },
+        "b3": { "type": "brand", "settings": { "name": "Lovejoy" } },
+        "b4": { "type": "brand", "settings": { "name": "Goodyear" } },
+        "b5": { "type": "brand", "settings": { "name": "Pulton" } },
+        "b6": { "type": "brand", "settings": { "name": "SKF" } },
+        "b7": { "type": "brand", "settings": { "name": "THB" } },
+        "b8": { "type": "brand", "settings": { "name": "Toyox" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8"],
+      "settings": {
+        "heading": "Brand partners",
+        "background_color": "#F4FAF8",
+        "text_color": "#D5D7DA"
+      }
+    },
+    "categories": {
+      "type": "custom-category-grid",
+      "blocks": {
+        "c1": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/category-conveyor.png",
+            "title": "Conveyor Components",
+            "button_label": "Explore Category",
+            "link": "shopify://collections/conveyor-components"
+          }
+        },
+        "c2": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/category-power-transmission.png",
+            "title": "Mechanical Power Transmission",
+            "button_label": "Explore Category",
+            "link": "shopify://collections/power-transmission"
+          }
+        },
+        "c3": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/category-industrial-hose.png",
+            "title": "Industrial Hose",
+            "button_label": "Explore Category",
+            "link": "shopify://collections/industrial-hose"
+          }
+        },
+        "c4": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/category-mechanical.png",
+            "title": "Mechanical Components",
+            "button_label": "Explore Category",
+            "link": "shopify://collections/other"
+          }
+        }
+      },
+      "block_order": ["c1", "c2", "c3", "c4"],
+      "settings": {
+        "heading": "Shop by Category",
+        "subheading": "Find exactly what your operation needs from our comprehensive industrial catalog",
+        "background_color": "#FFFFFF",
+        "text_color": "#252B37"
+      }
+    },
+    "featured": {
+      "type": "custom-featured-products",
+      "settings": {
+        "heading": "GUNYIC 2026™ Conveyor Components",
+        "link_label": "View all products",
+        "collection": "all",
+        "products_count": 5,
+        "columns": 5,
+        "show_price": true,
+        "show_tagline": false,
+        "image_ratio": "portrait",
+        "background_color": "#FFFFFF",
+        "text_color": "#252B37"
+      }
+    },
+    "why": {
+      "type": "custom-icon-columns",
+      "blocks": {
+        "w1": { "type": "column", "settings": { "heading": "Quality Tested", "text": "Every product meets standards" } },
+        "w2": { "type": "column", "settings": { "heading": "Global Brands", "text": "Authorized distributor network" } },
+        "w3": { "type": "column", "settings": { "heading": "24/7 Service", "text": "Expert guidance for every order" } },
+        "w4": { "type": "column", "settings": { "heading": "Fast Delivery", "text": "Nationwide shipping coverage" } }
+      },
+      "block_order": ["w1", "w2", "w3", "w4"],
+      "settings": {
+        "heading": "Why Businesses Choose Us?",
+        "columns": 4,
+        "background_color": "#0D403C",
+        "text_color": "#FFFFFF"
+      }
+    },
+    "industries": {
+      "type": "custom-industries",
+      "blocks": {
+        "i1": { "type": "industry", "settings": { "image": "shopify://shop_images/industry-automotive.png", "title": "Automotive" } },
+        "i2": { "type": "industry", "settings": { "image": "shopify://shop_images/industry-electronics.png", "title": "Electronics" } },
+        "i3": { "type": "industry", "settings": { "image": "shopify://shop_images/industry-construction.png", "title": "Construction" } },
+        "i4": { "type": "industry", "settings": { "image": "shopify://shop_images/industry-manufacturing.png", "title": "Heavy Manufacturing" } },
+        "i5": { "type": "industry", "settings": { "image": "shopify://shop_images/industry-aerospace.png", "title": "Aerospace" } }
+      },
+      "block_order": ["i1", "i2", "i3", "i4", "i5"],
+      "settings": {
+        "heading": "Industries we serve",
+        "subheading": "Trusted by manufacturers across multiple sectors",
+        "background_color": "#FFFFFF",
+        "text_color": "#252B37"
+      }
+    },
+    "testimonials": {
+      "type": "custom-testimonials",
+      "blocks": {
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Guan Yiac has been our trusted supplier for industrial hoses for over 10 years. Excellent quality and fast delivery.",
+            "author": "Maria Santos, Plant Manager"
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Their technical team helped us select the right conveyor belt for our production line. Highly recommended.",
+            "author": "James Chen, Operations Director"
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Reliable partner since 1943. We source all our power transmission components from Guan Yiac.",
+            "author": "Roberto Garcia, Procurement Head"
+          }
+        }
+      },
+      "block_order": ["t1", "t2", "t3"],
+      "settings": {
+        "heading": "What Our Customers Say",
+        "columns": 3,
+        "background_color": "#F4FAF8",
+        "text_color": "#252B37"
+      }
+    },
+    "promo": {
+      "type": "custom-image-banner",
+      "settings": {
+        "heading": "Free Delivery on Orders ₱5,000 and Above",
+        "text": "<p>Metro Manila same-day delivery available on qualifying orders.</p>",
+        "button_label": "Quote Today",
+        "link": "shopify://pages/request-quote",
+        "show_overlay": true,
+        "overlay_opacity": 0.2,
+        "content_color": "#FFFFFF",
+        "content_alignment": "left",
+        "full_width": true,
+        "min_height": 380,
+        "max_width": 1280,
+        "image": "shopify://shop_images/promo-truck.png"
+      }
+    },
+    "blog": {
+      "type": "custom-blog-posts",
+      "settings": {
+        "heading": "Industrial Knowledge Hub",
+        "blog": "news",
+        "posts_count": 3,
+        "columns": 3,
+        "background_color": "#FFFFFF",
+        "text_color": "#252B37"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "brands",
+    "categories",
+    "featured",
+    "why",
+    "industries",
+    "testimonials",
+    "promo",
+    "blog"
+  ]
+}

@@ -1,76 +1,113 @@
-# Theme Architecture
+# Theme Architecture Specification
 
-## Template Map
+## Architecture Model
 
-| Experience | Shopify Template / Route | Notes |
-| --- | --- | --- |
-| Homepage | `index.json` | Ordered homepage sections from PRD |
-| Collection/category | `collection.json` | Supports category hero, filters, quick pills, comparison |
-| Product detail | `product.json` | Quote-first PDP with gallery and sticky bottom bar |
-| Request quote | `page.request-quote.json` | Multi-step quote wizard |
-| Blog/knowledge hub | `blog.json`, `article.json` | Industrial Knowledge Hub content |
-| Static pages | `page.json` | About, Contact, Privacy, Terms, Sitemap |
+Use Shopify Online Store 2.0 architecture:
 
-## Section Plan
+- JSON templates for page composition.
+- Sections everywhere for merchant-controlled layout.
+- Blocks for repeatable content and per-item controls.
+- App blocks where apps must integrate into editable layouts.
+- Snippets for reusable rendering patterns.
+- Locale files for reusable interface strings.
+- Theme settings for global visual tokens.
+- Metafields/metaobjects for structured content that should be shared across templates or reused by multiple sections.
 
-| Section | Purpose | Dynamic Source |
-| --- | --- | --- |
-| `announcement-bar` | Shipping, phone, established copy | Theme settings |
-| `main-header` | Logo, nav, search/wishlist/account icons | Theme settings + menus |
-| `mega-menu` | Category and subcategory navigation | Menus, collections, metaobjects |
-| `hero-industrial` | Homepage Hero V6 | Theme section settings |
-| `brand-marquee` | Partner logo strip | Blocks or brand metaobjects |
-| `category-grid` | Shop by Category cards | Collections or category metaobjects |
-| `featured-products` | Product card strip/grid | Product list/collection picker |
-| `why-choose-us` | Feature cards | Blocks/metaobjects |
-| `industries-served` | Industry vertical grid | Blocks/metaobjects |
-| `testimonials` | Customer quotes | Testimonial metaobjects |
-| `shipping-promo` | Truck/free-shipping visual CTA | Section settings |
-| `knowledge-hub-preview` | Blog/article cards | Shopify blog articles |
-| `collection-product-finder` | Guided filter tool | Product metafields/facets |
-| `collection-grid` | Products, sorting, view switch | Shopify collection object |
-| `comparison-bar-modal` | Compare up to 3 products | Product metafields + JS state |
-| `product-main-quote` | PDP gallery/specs/quote action | Product object/metafields |
-| `product-sticky-quote-bar` | Sticky PDP actions | Product object/metafields |
-| `quote-form-wizard` | RFQ capture | Shopify form/app/integration |
-| `site-footer` | Footer links and legal | Menus + Theme settings |
+## Dynamic Content Sources
 
-## Snippet Plan
+| Visible content type | Required dynamic source | Notes |
+|---|---|---|
+| Headings, labels, microcopy | Section/block settings or locale keys | No literal sentences in templates. |
+| Long-form formatted copy | Rich text settings, pages, blogs, or metaobjects | Preserve formatting and links. |
+| Product data | `product` object and product metafields | Title, media, price, variants, badges. |
+| Collection data | `collection` object and collection metafields | Title, description, image, product list. |
+| Repeating feature cards | Blocks or metaobjects | Choose blocks for local content; metaobjects for shared reusable content. |
+| Testimonials/reviews | Blocks, app blocks, or metaobjects | Source depends on final review system. |
+| Images/icons | Image picker or file-reference metafields/metaobjects | Assets uploaded to Content > Files. |
+| Navigation | Shopify menus/linklists | Header/footer menu items must not be static. |
+| Forms | Shopify forms plus settings/locales | Labels/placeholders dynamic. |
+| Colors/fonts/buttons | Theme settings + CSS variables | Global editability. |
 
-- `product-card.liquid`
-- `breadcrumb.liquid`
-- `responsive-image.liquid`
-- `icon.liquid`
-- `cta-button.liquid`
-- `spec-table.liquid`
-- `brand-logo-card.liquid`
-- `article-card.liquid`
-- `comparison-product-cell.liquid`
+## Global Theme Settings
 
-## JavaScript Modules
+Global theme settings should include:
 
-Use progressive enhancement; HTML should remain useful if JavaScript fails.
+- Body font picker.
+- Heading font picker.
+- Accent font picker when required by Figma.
+- Optional custom font URL/reference setting if a Figma font is not available in Shopify font picker.
+- Base font size.
+- Heading scale.
+- Body line-height.
+- Letter-spacing controls for headings and small labels.
+- Primary, secondary, accent, text, muted text, border, and background colors.
+- Button primary/secondary/tertiary colors and states.
+- Border radius scale.
+- Spacing scale.
+- Container width.
+- Header behavior settings, including sticky behavior where required.
 
-- `mega-menu.js` — hover/click/focus menu behavior.
-- `brand-marquee.js` — optional marquee velocity behavior with reduced-motion guard.
-- `collection-filters.js` — filter, reset, sort, view toggle behavior; use Section Rendering API if applicable.
-- `product-comparison.js` — selected product state, sticky bar, modal, max-3 validation.
-- `product-gallery.js` — thumbnail switching and accessible gallery behavior.
-- `sticky-product-bar.js` — PDP scroll-triggered bottom bar.
-- `quote-wizard.js` — multi-step validation, live summary, URL-prefill support.
+## Section Schema Pattern
 
-## Content Management Rules
+Each dynamic section should expose:
 
-- No product, price, SKU, spec, testimonial, logo, or article content should be hardcoded in Liquid templates.
-- All visible content must be editable through Shopify Admin, products, collections, metafields, metaobjects, menus, blogs, pages, Theme Editor settings, or locale files.
-- Images should use Shopify image pickers, product/collection media, or file-reference metafields.
-- UI must be responsive across mobile, tablet, and desktop.
+- Enable/disable setting.
+- Heading/subheading/copy settings.
+- CTA label and URL settings where applicable.
+- Image picker settings for content imagery.
+- Optional mobile-specific image picker when art direction differs.
+- Layout style/variant settings.
+- Color scheme setting.
+- Per-breakpoint controls where design behavior requires merchant control.
+- Blocks for repeatable items.
+
+## Image Rendering Rules
+
+- Render all imagery with Shopify `image_url` and `image_tag` filters.
+- Provide width candidates and `sizes` values appropriate to layout.
+- Use `loading="lazy"` by default except critical above-the-fold imagery where eager loading/preload is justified.
+- Always output width and height to reduce layout shift.
+- Use image alt text from the selected image or an editable setting.
+- Use decorative empty alt text only when the image is purely decorative.
+- Use mobile/tablet/desktop image settings where Figma requires different crops.
+
+## Product Card Requirements
+
+Product cards must render from Shopify product data and support:
+
+- Product image/media.
+- Product title.
+- Price and compare-at price.
+- Availability state.
+- Variant option display where required.
+- Swatches using variant data and/or metafields.
+- Badge logic sourced from product tags, metafields, or configurable rules.
+- Quick actions only if supported by the current theme or approved implementation scope.
+
+## Collection Filtering Requirements
+
+- Facets render from Shopify Search & Discovery configuration.
+- Active filters, result counts, sort state, and empty states are dynamic.
+- No static filter lists.
+- Real-time updates use Section Rendering API.
+- URL state is preserved and shareable.
+- No-JS fallback submits filters normally.
 
 ## Accessibility Requirements
 
-- Semantic landmarks for header, main, nav, footer.
-- Buttons for interactive controls, links for navigation.
-- Focus trap and Escape close for comparison modal.
-- Keyboard operation for mega menu.
-- Reduced-motion support for marquee and scroll animations.
-- Alt text for logos, product images, and promo imagery.
+- Semantic landmarks for header, main, footer, navigation, and sections.
+- Keyboard-accessible controls.
+- Visible focus states.
+- Correct button/link semantics.
+- Form labels and accessible error/success messages.
+- Alt text strategy for all images.
+- ARIA only where native semantics are insufficient.
+
+## Performance Requirements
+
+- Responsive image sizes and lazy loading.
+- Avoid layout shift with dimensions and stable containers.
+- Minimize JavaScript and keep it progressive.
+- Avoid blocking third-party dependencies unless required.
+- No console errors.
+- Do not over-fetch Section Rendering API responses.

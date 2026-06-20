@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "hero": {
+      "type": "custom-image-banner",
+      "settings": { "full_width": true }
+    },
+    "intro": {
+      "type": "custom-rich-text",
+      "settings": { "heading": "La nostra storia", "body": "" }
+    },
+    "step1": {
+      "type": "custom-image-with-text",
+      "settings": { "image_position": "left", "heading": "Come è nato" }
+    },
+    "step2": {
+      "type": "custom-image-with-text",
+      "settings": { "image_position": "right", "heading": "Come lo facciamo" }
+    },
+    "step3": {
+      "type": "custom-image-with-text",
+      "settings": { "image_position": "left", "heading": "Perché sceglierci" }
+    }
+  },
+  "order": ["hero", "intro", "step1", "step2", "step3"]
+}

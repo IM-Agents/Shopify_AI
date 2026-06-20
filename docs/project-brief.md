@@ -1,62 +1,67 @@
-# Project Brief: Guan Yiac Hardware Industrial E-Commerce Website
+# Project Brief: Figma-Driven Dynamic Shopify Storefront
 
 ## Objective
 
-Build a modern industrial e-commerce storefront for Guan Yiac Hardware that helps buyers discover products, compare specifications, request quotes, download catalogues, and trust the company as an established Philippine supplier since 1943.
+Translate the supplied Figma design into a fully dynamic Shopify Online Store 2.0 storefront where every visible element is sourced from Shopify store data, theme settings, metafields, metaobjects, locale files, or Theme Editor-controlled section/block settings.
 
-## Source Material
+## Reference Materials
 
-- Product Requirements Document supplied by client.
-- Figma source: **Guan-yiac Design File**, last modified April 16, 2026.
-- Design direction: implement **Hero V6** as the final homepage hero variant.
+- Store URL: https://bhautik-mehta.myshopify.com/
+- Figma design: https://www.figma.com/design/in1jO50FOrn9q7LeQ3O68u/il-Cashewficio--x-developer---Copy-?node-id=0-1&t=IcslBjVM13M8jH4u-1
 
-## Business Context
+## Scope
 
-Guan Yiac Hardware supplies industrial hardware in the Philippines, including conveyor components, industrial hoses, power transmission products, and related hardware. The buyer journey is primarily B2B and specification-driven, but the storefront should also support B2C-style browsing and account/wishlist behavior.
+### In Scope
 
-## Success Metrics
+- Existing Shopify theme audit.
+- Figma node and component inventory.
+- Dynamic content mapping matrix.
+- Global theme settings for colors, fonts, type scale, spacing, and button styles.
+- Dynamic Shopify sections and blocks for all Figma sections.
+- Responsive storefront implementation for mobile, tablet, and desktop.
+- Dynamic product cards and collection templates.
+- Real-time collection filtering using Shopify Search & Discovery facets and Section Rendering API.
+- Asset ingestion workflow through Shopify Content > Files.
+- Metaobject and metafield planning for structured/repeating content.
+- Theme Editor configuration for merchandiser control.
+- QA report and handover documentation.
 
-| Goal | Metric |
-| --- | --- |
-| Online catalogue visibility | 20,000+ products indexed, categorized, searchable, and filterable |
-| Lead capture | Quote request form conversion rate |
-| Trust signals | Brand partners and “Established 1943” visible in key journeys |
-| Repeat visits | Wishlist and account usage |
-| Regional logistics clarity | Free shipping threshold visible on every page |
+### Out of Scope
 
-## In Scope
-
-- Homepage/landing page.
-- Collection/category page.
-- Product detail page.
-- Request quote page.
-- Shared header, top banner, mega menu, footer, breadcrumbs, product cards, blog preview, brand marquee, and reusable content sections.
-- Product comparison on collection pages, supporting up to 3 products.
-- Quote-first PDP actions with sticky bottom quote/download bar.
-- Responsive design across mobile, tablet, and desktop.
-- Shopify dynamic content mapping using products, collections, metafields, metaobjects, blogs, pages, menus, and Theme Editor settings.
-
-## Out of Scope / Not Confirmed
-
-- Final 20,000+ SKU catalogue import and cleansing, unless separately assigned.
-- Final client-provided blog article body content.
-- Final customer testimonial copy.
-- Final industry vertical list beyond examples provided.
-- Custom ERP/PIM/CRM integration unless scoped separately.
-- Direct checkout/add-to-cart flow, because the supplied design is quote-first.
+- Inventing product names, product copy, prices, collection names, domain-specific claims, or new brand facts.
+- Changing supplied hyperlink destinations.
+- Publishing the final theme without review/signoff.
+- Rebuilding the whole theme blindly when existing components can be extended.
 
 ## Stakeholders
 
-- Client/business approver: Guan Yiac Hardware.
-- Design approver: Figma/design owner.
-- Development DRI: Shopify developer/team.
-- Content/merchandising owner: catalogue and marketing content owner.
-- QA owner: QA or developer validating responsive, functional, accessibility, and content-management behavior.
+- Business/design approver: client-side stakeholder to sign off Figma fidelity and content mapping.
+- Development DRI: Senior Shopify Developer.
+- Merchandising/content owner: Shopify admin user responsible for store data, product content, images, and settings.
+- QA DRI: developer or QA owner validating responsiveness, accessibility, performance, and dynamic editability.
 
-## Key Assumptions
+## Success Criteria
 
-- Shopify is the target storefront platform for this repository.
-- Products, SKU data, product images, price/quote visibility rules, specs, and catalogue PDFs will be client-provided.
-- Quote requests can initially be captured through Shopify-native forms or an app/integration, with future CRM/ERP routing if needed.
-- “Other” category and several subcategories remain client-confirmed items.
-- The UI must be responsive even though source design is desktop-first.
+1. Zero visible hardcoded storefront content.
+2. Every Figma node has a mapped Shopify dynamic source.
+3. All assets are uploaded to Shopify Content > Files and selected through image picker or file-reference metafields/metaobjects.
+4. Collections, products, filters, counts, sorting, and empty states render from live Shopify data.
+5. Filter/sort interactions update through the Section Rendering API with no-JS fallback.
+6. Desktop, tablet, and mobile match the Figma design and responsive behavior.
+7. All editable controls are available to non-developers through Theme Editor, store objects, metafields, metaobjects, or locale files.
+8. Accessibility and performance baselines pass with semantic markup, alt text, focus states, lazy loading, no avoidable layout shift, and no console errors.
+
+## Assumptions
+
+- The Figma source is available to the implementation team with inspection/export permissions.
+- Shopify admin/theme access is available to audit the current theme and upload files.
+- A duplicated/unpublished theme will be used for development.
+- Shopify Search & Discovery can be configured for required facets.
+- Final copy, products, prices, collection imagery, and domain facts will come from Shopify data or client-provided Theme Editor entries.
+
+## Key Constraints
+
+- No hardcoded visible strings in `.liquid` templates.
+- No hardcoded image paths for content assets.
+- Existing hyperlinks must remain unchanged unless an authorized stakeholder changes them in Theme Editor.
+- All layouts must remain responsive across mobile, tablet, and desktop.

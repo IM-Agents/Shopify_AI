@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "custom-contact",
+      "settings": {
+        "heading": "Request a Quote",
+        "subheading": "Tell us about your industrial hardware needs and our team will respond within 24 hours.",
+        "background_color": "#FFFFFF",
+        "text_color": "#252B37"
+      }
+    }
+  },
+  "order": ["main"]
+}

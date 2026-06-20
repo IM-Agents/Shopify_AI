@@ -1,224 +1,152 @@
 # Backlog and Acceptance Criteria
 
-## Epic 1: Discovery, Audit, and Setup
+## Epic 1: Theme Audit and Figma Inventory
 
-### Story 1.1: Audit Current Shopify Theme
+### Story 1.1: Audit Existing Shopify Theme
 
-As a developer, I need to understand the current theme architecture so the Guan Yiac build extends the theme safely.
-
-Acceptance criteria:
-
-- Existing templates, sections, snippets, CSS, JavaScript, settings, and dependencies are documented.
-- Reusable theme components are identified.
-- Development occurs on an unpublished duplicate theme or safe branch.
-- Risks are added to the RAID log.
-
-### Story 1.2: Inventory Figma Design
-
-As a developer, I need a complete Figma inventory so all sections and components are accounted for.
+As a developer, I need to understand the current theme architecture so that new work extends the theme without unnecessary rebuilds.
 
 Acceptance criteria:
 
-- Homepage Hero V6 is confirmed as final.
-- Shared components and master components are listed.
-- Required assets are exported/named.
-- Desktop-first layouts are translated into responsive mobile/tablet/desktop requirements.
+- Existing templates, sections, snippets, settings, CSS, JavaScript, and metafields are documented.
+- Reusable components are identified.
+- Theme constraints and risks are added to the RAID log.
+- Development happens on a duplicated/unpublished theme.
 
-### Story 1.3: Confirm Product Taxonomy
+### Story 1.2: Inventory Figma Nodes and Assets
 
-As a merchandiser, I need the catalogue taxonomy confirmed so products can be organized and filtered correctly.
-
-Acceptance criteria:
-
-- Main categories match the PRD.
-- Subcategories are mapped to collections or filters.
-- “Other” category content is confirmed or marked as placeholder.
-- Product filter requirements are mapped to options/metafields/facets.
-
-## Epic 2: Global Components
-
-### Story 2.1: Build Announcement Banner
+As a developer, I need a complete Figma inventory so that every visible node can be mapped to a Shopify dynamic source.
 
 Acceptance criteria:
 
-- Shows free shipping, phone, and Established 1943 copy.
-- Appears on every required page.
-- Is responsive and editable.
+- All frames, sections, components, variants, text nodes, icons, and images are listed.
+- Desktop/tablet/mobile variants are identified.
+- Exportable assets are named with a consistent convention.
+- Mapping matrix is ready for stakeholder review.
 
-### Story 2.2: Build Header and Mega Menu
+## Epic 2: Global Design System
 
-Acceptance criteria:
+### Story 2.1: Configure Global Theme Tokens
 
-- Logo, nav links, search, wishlist, and account icons render correctly.
-- Our Products opens category-driven mega menu.
-- Mega menu works by mouse, touch, and keyboard.
-- Mobile navigation is usable and responsive.
-
-### Story 2.3: Build Product Card
+As a merchandiser, I need global controls for fonts, colors, spacing, and buttons so that brand styling can be adjusted without code.
 
 Acceptance criteria:
 
-- Renders product image, title, CTA/price area, wishlist icon, and optional comparison checkbox.
-- Data comes from Shopify product objects/metafields.
-- Layout works in grid, carousel, and related-product contexts.
+- Global settings cover color tokens, fonts, type scale, button styles, radius, and spacing.
+- CSS custom properties consume theme settings.
+- Figma typography and color values are represented without hardcoded visible content.
 
-### Story 2.4: Build Footer
+### Story 2.2: Implement Responsive CSS Foundation
 
-Acceptance criteria:
-
-- Includes logo, tagline, description, three link columns, and legal bottom bar.
-- Links are editable through menus/settings.
-- Footer is responsive across mobile/tablet/desktop.
-
-## Epic 3: Homepage
-
-### Story 3.1: Build Hero V6
+As a shopper, I need the storefront to match the design across devices.
 
 Acceptance criteria:
 
-- Uses required headline, sub-headline, body copy, imagery, and CTAs.
-- Primary CTA routes to collection/product browsing.
-- Secondary CTA routes to quote/contact flow.
-- Mobile layout preserves content hierarchy.
+- Mobile-first CSS is used.
+- Breakpoints align with Figma frames.
+- Fluid type and spacing use `clamp()` where appropriate.
+- Mobile, tablet, and desktop layouts are verified.
 
-### Story 3.2: Build Brand Partner Marquee
+## Epic 3: Asset Ingestion and Dynamic Media
 
-Acceptance criteria:
+### Story 3.1: Upload Figma Assets to Shopify Content Files
 
-- Displays Mitsubishi, Hitachi, Lovejoy, Goodyear, Pulton, SKF, THB, Toyox.
-- Animation is smooth and reduced-motion safe.
-- Logos are manageable through blocks/metaobjects.
-
-### Story 3.3: Build Category, Featured Product, and Catalogue Sections
+As a merchandiser, I need assets in Shopify Content > Files so that they can be selected and replaced in Theme Editor.
 
 Acceptance criteria:
 
-- Category cards are dynamic from collections/metaobjects.
-- Featured products include sample products when available.
-- Download Catalogue CTA is visible and configurable.
+- All Figma-exported assets are uploaded to Content > Files.
+- Asset references are documented.
+- No content imagery is hardcoded from the theme assets folder.
 
-### Story 3.4: Build Trust and Content Sections
+### Story 3.2: Implement Responsive Image Rendering Pattern
 
-Acceptance criteria:
-
-- Why Choose Us, Industries We Serve, Testimonials, Shipping Promo, and Knowledge Hub sections are implemented.
-- Cards/articles/testimonials are editable without code.
-- Sections are responsive.
-
-## Epic 4: Collection Page
-
-### Story 4.1: Build Category Hero and Breadcrumb
+As a shopper, I need fast responsive images with correct alt text and no layout shift.
 
 Acceptance criteria:
 
-- Breadcrumb follows `Home / Category` pattern.
-- Hero headline and image are collection-managed.
+- Images use Shopify image filters and responsive widths.
+- Alt text is sourced from image metadata or editable settings.
+- Desktop/mobile art direction is supported where Figma requires it.
 
-### Story 4.2: Build Product Finder and Quick Filters
+## Epic 4: Dynamic Sections and Blocks
 
-Acceptance criteria:
-
-- Finder includes spec-based filters such as size, pressure rating, and material.
-- Quick filter pills are horizontally scrollable on small screens.
-- Find Products and Reset actions work.
-
-### Story 4.3: Build Sort, View Toggle, Grid, and Pagination
+### Story 4.1: Build Header and Footer
 
 Acceptance criteria:
 
-- Sorting includes Featured, Price Low–High, and Newest where platform data supports it.
-- Grid/list view toggle works without breaking filters.
-- Product grid supports pagination or infinite-scroll decision.
-- Inline ad placements appear every ~8–12 cards if configured.
+- Navigation uses Shopify menus/linklists.
+- Logo and social icons use image picker settings.
+- Legal copy and labels are settings or locale keys.
+- Mobile navigation matches Figma behavior.
 
-### Story 4.4: Build Product Comparison
-
-Acceptance criteria:
-
-- Users can select up to 3 products.
-- Sticky compare bar appears when at least 1 product is selected.
-- Clear All and individual remove actions work.
-- Full-screen modal compares product identity and spec rows.
-
-## Epic 5: Product Detail Page
-
-### Story 5.1: Build Product Gallery and Info Layout
+### Story 4.2: Build Hero and CTA Sections
 
 Acceptance criteria:
 
-- Two-column desktop layout and stacked mobile layout.
-- Gallery supports primary image and thumbnails.
-- Product name, SKU, specs, selector, and highlights are dynamic.
+- Headings, rich text, buttons, images, overlays, and layout settings are editable.
+- Links use URL settings and preserve supplied destinations.
+- Desktop/tablet/mobile layouts match Figma.
 
-### Story 5.2: Build Quote-First Actions
-
-Acceptance criteria:
-
-- Request Quote is the primary action.
-- Download Catalog is secondary.
-- PDP quote action pre-fills quote page where possible.
-
-### Story 5.3: Build Sticky Bottom Product Bar
+### Story 4.3: Build Repeatable Content Sections
 
 Acceptance criteria:
 
-- Appears on scroll.
-- Shows thumbnail, product name, Request Quote, and Download Catalog.
-- Does not conflict with mobile browser safe areas.
+- Feature cards, USP rows, tabs, accordions, banners, testimonials, and similar repeating items are blocks or metaobjects.
+- Items can be reordered and hidden without code.
+- Icons/images are selected through image pickers or file-reference metafields.
 
-### Story 5.4: Build Related Products and Knowledge Hub
+## Epic 5: Products, Collections, and Filtering
 
-Acceptance criteria:
-
-- Related products show selected/recommended products.
-- Knowledge Hub preview uses Shopify blog articles.
-
-## Epic 6: Request Quote Flow
-
-### Story 6.1: Build Multi-Step Quote Wizard
+### Story 5.1: Build Dynamic Product Cards
 
 Acceptance criteria:
 
-- Includes product/SKU, quantity, specs, company, contact, email/phone, delivery address, and notes fields.
-- Validates required fields.
-- Supports URL prefill from PDP.
+- Product cards render product media, title, price, compare-at price, availability, and variant data from Shopify objects.
+- Badges and swatches come from tags, product/variant metafields, or configured dynamic rules.
+- No product data is hardcoded.
 
-### Story 6.2: Build Live Summary Panel
-
-Acceptance criteria:
-
-- Summary updates as the user enters product/spec/contact details.
-- Layout is two-column on desktop and stacked on mobile.
-
-### Story 6.3: Route Quote Submission
+### Story 5.2: Build Collection Template
 
 Acceptance criteria:
 
-- Submission is trackable and not lost.
-- Confirmation message appears after submission.
-- Business owner receives quote request through agreed routing method.
+- Collection title, description, image, products, counts, sort, and pagination render from Shopify data.
+- Featured collection sections use collection picker/list controls, not hardcoded handles.
 
-## Epic 7: QA and Launch Readiness
-
-### Story 7.1: Responsive QA
+### Story 5.3: Implement Real-Time Filters
 
 Acceptance criteria:
 
-- Homepage, collection, PDP, and quote page pass mobile/tablet/desktop checks.
-- No horizontal overflow or clipped sticky elements.
+- Facets render from `collection.filters` and `search.filters`.
+- Section Rendering API updates product grid, counts, active filters, and facet counts.
+- URL state is synced and back-button safe.
+- No-JS fallback works with query-string navigation.
+- Empty state and clear-all states use dynamic labels/settings/locales.
 
-### Story 7.2: Accessibility and Performance QA
+## Epic 6: QA, Accessibility, Performance, and Handover
 
-Acceptance criteria:
-
-- Keyboard nav works for menu, filters, modal, and form.
-- Images are lazy-loaded where appropriate.
-- Marquee/animation respects reduced motion.
-- No critical console errors.
-
-### Story 7.3: Content Handover
+### Story 6.1: Dynamic Content Audit
 
 Acceptance criteria:
 
-- Admin-editable areas are documented.
-- Catalogue, brand logos, testimonials, industries, blog articles, and catalogue downloads have update instructions.
+- No visible hardcoded content remains.
+- All text/images/links/colors/fonts are editable or store-data-driven.
+- Mapping matrix is fully satisfied.
+
+### Story 6.2: Accessibility and Performance QA
+
+Acceptance criteria:
+
+- Semantic markup is used.
+- Focus states are visible.
+- Form fields have labels.
+- Images have correct alt behavior.
+- Responsive images prevent avoidable layout shift.
+- Console has no errors.
+
+### Story 6.3: Handover Documentation
+
+Acceptance criteria:
+
+- Merchandiser instructions explain how to edit sections, swap images, manage links, adjust type/color settings, and manage filters.
+- QA report includes desktop/tablet/mobile notes.

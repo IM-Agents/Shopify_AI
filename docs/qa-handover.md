@@ -1,94 +1,126 @@
 # QA and Handover Plan
 
-## QA Scope
+## QA Strategy
 
-Validate the following page types:
+QA must verify three things together:
 
-- Homepage.
-- Collection/category page.
-- Product detail page.
-- Request quote page.
-- Blog/Industrial Knowledge Hub preview and article routes where included.
-- Shared header, mega menu, footer, banner, product cards, breadcrumbs, and sticky bars.
+1. Figma fidelity.
+2. Dynamic editability.
+3. Responsive, accessible, performant behavior.
+
+## Dynamic Content Audit
+
+For every visible storefront element, verify the source:
+
+- Text: setting, locale key, store object, page/blog content, metafield, or metaobject.
+- Image/icon: image picker or file-reference metafield/metaobject from Content > Files.
+- Link: URL setting, menu/linklist, or store object URL.
+- Product data: product object and metafields.
+- Collection data: collection object and metafields.
+- Filters: Shopify Search & Discovery facets rendered from Liquid filter objects.
+- Colors/fonts/buttons: global theme settings and CSS variables.
+
+Pass criteria:
+
+- No visible string is hardcoded in Liquid.
+- No content asset uses a hardcoded static `src`.
+- Theme Editor can update visible section content without code.
 
 ## Responsive QA
 
-Test mobile, tablet, and desktop layouts.
+Validate at minimum:
 
-Checklist:
+- Mobile: <= 749px.
+- Tablet: 750px - 989px.
+- Desktop: >= 990px.
 
-- Top banner remains readable and does not overflow.
-- Header icons and mobile menu are touch-friendly.
-- Mega menu has mobile fallback behavior.
-- Hero V6 preserves CTA hierarchy.
-- Category and product grids stack cleanly.
-- Horizontal scrollers have accessible overflow behavior.
-- PDP gallery and sticky bottom bar work on small screens.
-- Quote wizard becomes single-column on mobile.
-- No unwanted horizontal scrolling.
+For each section:
 
-## Functional QA
+- Compare spacing, alignment, type scale, image crop, and layout against Figma.
+- Verify responsive image behavior and no avoidable layout shift.
+- Verify mobile navigation, drawers, filters, sliders, accordions, tabs, and sticky behavior.
+- Verify touch target sizes on mobile and tablet.
 
-Checklist:
+## State QA
 
-- Search opens and returns relevant products.
-- Wishlist icon behavior works according to selected implementation.
-- Mega menu category hover/click/focus updates subcategory preview.
-- Collection filters apply and reset correctly.
-- Sort order changes product order correctly.
-- Grid/list view toggle works.
-- Product comparison maxes at 3 products.
-- Comparison modal opens, scrolls, and closes correctly.
-- PDP gallery thumbnails update the primary image.
-- Request Quote CTA pre-fills product/SKU context.
-- Download Catalogue buttons link to configured files.
-- Quote form validates required fields and submits successfully.
+Verify all applicable states:
+
+- Default.
+- Hover.
+- Active.
+- Focus.
+- Disabled.
+- Loading.
+- Empty state.
+- Error/success state for forms.
+- Active filter and clear-all states.
+
+## Collection Filtering QA
+
+Validate:
+
+- Facets render from live Shopify filter objects.
+- Product grid updates using Section Rendering API.
+- Result count updates correctly.
+- Active filters update correctly.
+- Facet counts update correctly.
+- Sort changes update correctly.
+- URL query parameters remain shareable.
+- Browser back/forward navigation works.
+- No-JS fallback works through normal page navigation.
+- Empty collection/filter result state is clear and dynamic.
 
 ## Accessibility QA
 
-Checklist:
+Validate:
 
-- Header, nav, main, and footer landmarks are present.
-- Interactive elements have accessible names.
-- Keyboard navigation works for menus, filters, forms, sticky bars, and comparison modal.
-- Escape closes modals/menus where expected.
-- Focus states are visible.
-- Color contrast meets WCAG AA where possible.
-- Images have meaningful alt text or empty alt for decorative images.
-- Marquee and scroll animations respect `prefers-reduced-motion`.
+- Semantic landmarks and heading order.
+- Keyboard navigation for menus, drawers, filters, tabs, accordions, carousels, and forms.
+- Visible focus indicators.
+- Form labels and error messages.
+- Alt text for content images.
+- Empty alt text for decorative images.
+- Color contrast for text/buttons/states.
+- ARIA attributes only where needed and correctly updated.
 
 ## Performance QA
 
-Checklist:
+Validate:
 
-- Product images use responsive image sizes.
-- Below-the-fold images lazy-load.
-- Logo/image assets are optimized.
-- JavaScript is scoped and does not block initial render unnecessarily.
-- Large collection pages remain responsive.
-- No critical console errors.
+- Responsive image `srcset`/`sizes` output.
+- Width and height attributes to reduce layout shift.
+- Lazy loading for below-the-fold imagery.
+- Avoid excessive JavaScript.
+- No console errors.
+- No unnecessary Section Rendering API requests.
 
-## Content Handover
+## Handover Guide for Merchandisers
 
-Document for the content/admin team:
+The final handover should explain:
 
-- How to update top banner copy and phone number.
-- How to manage navigation and mega menu links.
-- How to upload/update brand partner logos.
-- How to update category cards and collection heroes.
-- How to assign product specification metafields.
-- How to configure catalogue download files.
-- How to add testimonials and industry cards.
-- How to publish Industrial Knowledge Hub articles.
-- How to review quote submissions.
+- How to edit global colors, fonts, button styles, and spacing tokens.
+- How to edit each section in Theme Editor.
+- How to add, remove, reorder, and hide blocks.
+- How to swap images/icons through image pickers.
+- How to manage images in Shopify Content > Files.
+- How to preserve or update CTA links through URL settings.
+- How to manage Shopify menus for header/footer navigation.
+- How to manage products, collections, collection imagery, and descriptions.
+- How to manage metafields/metaobjects used by badges, swatches, testimonials, or structured content.
+- How to configure Search & Discovery filters.
+- How to verify mobile/tablet/desktop behavior after edits.
 
-## Launch Checklist
+## Final Signoff Checklist
 
-- Figma fidelity approved.
-- Responsive QA passed.
-- Quote submissions tested with real recipient/routing.
-- Search/filter behaviour tested with representative catalogue data.
-- Legal links present: Privacy Policy, Terms, Sitemap.
-- Free shipping threshold copy confirmed.
-- Phone number confirmed: `(02) 8245-7022`.
-- Analytics/conversion tracking requirements confirmed if in scope.
+- [ ] Mapping matrix completed for every Figma node.
+- [ ] Assets uploaded to Content > Files.
+- [ ] Theme settings configured for global tokens.
+- [ ] Sections and blocks editable in Theme Editor.
+- [ ] Product and collection templates render live Shopify data.
+- [ ] Real-time filters work with Section Rendering API.
+- [ ] No-JS filtering fallback works.
+- [ ] Responsive QA passed on mobile, tablet, and desktop.
+- [ ] Accessibility baseline passed.
+- [ ] Performance baseline passed.
+- [ ] No console errors.
+- [ ] Handover documentation delivered.

@@ -1,44 +1,51 @@
-# Guan Yiac Hardware — B2B/B2C Industrial E-Commerce Documentation
+# Figma-Driven Dynamic Shopify Storefront Documentation
 
 ## Project Overview
 
-This documentation defines the build plan for the **Guan Yiac Hardware** industrial e-commerce storefront. Guan Yiac Hardware is a Philippine industrial hardware supplier established in **1943**, serving B2B and B2C buyers with a catalogue of **20,000+ SKUs** across conveyor components, industrial hoses, power transmission parts, and other industrial hardware.
+This documentation defines the implementation approach for converting the provided Figma design into a fully dynamic, data-driven Shopify storefront for the supplied Shopify store.
 
-The storefront must support quote-first procurement, searchable product discovery, brand trust signals, comparison tools, catalogue downloads, and persistent regional shipping messaging for Metro Manila buyers.
-
-## Primary Goals
-
-- Make 20,000+ products discoverable through category navigation, search, filters, and collection pages.
-- Prioritize **Request Quote** conversion over direct add-to-cart purchasing.
-- Reinforce trust using brand partners, “Established 1943”, customer testimonials, and industry expertise.
-- Support repeat buyer workflows with wishlist, account access, product comparison, and catalogue downloads.
-- Keep the free-shipping threshold visible on every page: **Free Shipping on orders ₱5,000+ in Metro Manila**.
+- Store URL: https://bhautik-mehta.myshopify.com/
+- Figma design: https://www.figma.com/design/in1jO50FOrn9q7LeQ3O68u/il-Cashewficio--x-developer---Copy-?node-id=0-1&t=IcslBjVM13M8jH4u-1
+- Role expectation: Senior Shopify Developer Consultant
+- Core objective: every visible storefront element must be editable through Shopify Theme Editor, Shopify store objects, metafields, metaobjects, locale files, or store data.
 
 ## Technology / Stack
 
-Recommended implementation stack for this repository:
+- Shopify Online Store 2.0 theme architecture
+- Liquid templates and snippets
+- JSON templates
+- Shopify Theme Editor section and block schema
+- `settings_schema.json` global theme settings
+- Shopify metafields and metaobjects
+- Shopify Content > Files for Figma-exported assets
+- Shopify Search & Discovery app filtering facets
+- Shopify Section Rendering API for real-time collection filtering
+- JavaScript for progressive enhancement only
+- Mobile-first CSS using CSS custom properties, CSS Grid/Flexbox, and fluid `clamp()` tokens
 
-- **Shopify Online Store 2.0** storefront architecture
-- **Liquid** templates, sections, snippets, and JSON templates
-- **Shopify Theme Editor** settings and section/block schema
-- **Shopify metafields/metaobjects** for structured content, brands, industries, testimonials, blog cards, product specs, and quote metadata
-- **Shopify product/collection data** for catalogue, categories, variants, media, SKUs, and filters
-- **Shopify Search & Discovery** for product filters/facets where possible
-- **JavaScript** for progressive enhancement: mega menu, comparison modal, sticky bars, horizontal scrollers, and form wizard behavior
-- **CSS Grid/Flexbox + responsive CSS tokens** for mobile, tablet, and desktop layouts
-- Optional: Shopify Forms, customer accounts, or a quote-management app/integration for B2B RFQ workflow
+## Mandatory Development Rules
+
+1. No hardcoded visible storefront content.
+2. No static image `src` values in Liquid templates.
+3. All images/icons must be selected through image picker settings or file-reference metafields/metaobjects.
+4. Product, collection, filter, price, availability, badge, and swatch data must come from Shopify store data.
+5. All visible UI labels must come from section/block settings, store objects, metafields/metaobjects, or locale translation keys.
+6. The UI must be responsive across mobile, tablet, and desktop.
+7. Existing hyperlinks and destinations must be preserved exactly as supplied.
+8. The current theme must be audited and extended before creating new structure.
+9. Build non-destructively on a duplicated/unpublished theme.
+10. Do not invent product names, copy, prices, or domain facts.
 
 ## Documentation Index
 
 - [Project Brief](./project-brief.md)
-- [Functional Requirements](./functional-requirements.md)
 - [Implementation Plan](./implementation-plan.md)
 - [Theme Architecture](./theme-architecture.md)
-- [Data Model, Metafields, and APIs](./data-model-and-api.md)
+- [Content Mapping Matrix](./content-mapping-matrix.md)
 - [Backlog and Acceptance Criteria](./backlog.md)
 - [RAID Log](./raid-log.md)
 - [QA and Handover Plan](./qa-handover.md)
 
 ## Delivery Definition
 
-The build is complete when all required pages match the supplied Figma direction, work responsively across mobile/tablet/desktop, render catalogue data dynamically, support quote-first conversion, and allow non-developers to update key content through Shopify Admin, Theme Editor, metafields, metaobjects, products, collections, and blog content.
+The build is complete only when the storefront matches the Figma design across desktop, tablet, and mobile, and a merchandiser can update all visible content, assets, links, layout blocks, colors, fonts, and key component controls without editing code.

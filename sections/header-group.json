@@ -1,0 +1,46 @@
+{
+  "name": "Header",
+  "type": "header",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "shipping": {
+          "type": "announcement",
+          "settings": {
+            "text": "🚚 Free Shipping on orders ₱5,000+ in Metro Manila  |  📞 (02) 8245-7022  |  Established 1943",
+            "text_alignment": "center",
+            "color_scheme": "scheme-guan-yiac",
+            "link": ""
+          }
+        }
+      },
+      "block_order": ["shipping"],
+      "settings": {
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "color_scheme": "scheme-guan-yiac",
+        "show_line_separator": false,
+        "show_social": false
+      }
+    },
+    "custom-header": {
+      "type": "custom-header",
+      "settings": {
+        "menu": "main-menu",
+        "show_search": true,
+        "show_account": true,
+        "show_cart": true,
+        "show_wishlist": true,
+        "wishlist_url": "/pages/wishlist",
+        "show_language": false,
+        "enable_sticky": true,
+        "background_color": "#ffffff",
+        "text_color": "#252b37",
+        "logo": "shopify://shop_images/guan-yiac-logo.svg",
+        "logo_width": 157
+      }
+    }
+  },
+  "order": ["announcement", "custom-header"]
+}

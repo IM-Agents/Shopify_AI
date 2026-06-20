@@ -1,0 +1,46 @@
+{
+  "name": "Footer",
+  "type": "footer",
+  "sections": {
+    "custom-footer": {
+      "type": "custom-footer",
+      "blocks": {
+        "menu-products": {
+          "type": "menu",
+          "settings": {
+            "heading": "Products",
+            "menu": "footer-products"
+          }
+        },
+        "menu-company": {
+          "type": "menu",
+          "settings": {
+            "heading": "Company",
+            "menu": "footer-company"
+          }
+        },
+        "menu-contact": {
+          "type": "menu",
+          "settings": {
+            "heading": "Support",
+            "menu": "footer-support"
+          }
+        }
+      },
+      "block_order": ["menu-products", "menu-company", "menu-contact"],
+      "settings": {
+        "about_text": "<p><strong>Supplying Philippine Industry Since 1943</strong></p><p>Your trusted partner for industrial hoses, bearings, conveyor components, and power transmission products.</p>",
+        "contact_text": "<p>📍 455 Tomas Pinpin St. Binondo Manila, 1006 Manila, Philippines</p><p>📞 (02) 8245-7022</p><p>✉ sales@guanyiac.com.ph</p>",
+        "enable_newsletter": true,
+        "newsletter_text": "Stay Ahead of the Industry — Subscribe & Get 5% Off Your First Order",
+        "newsletter_button": "Subscribe",
+        "show_social": true,
+        "background_color": "#0D403C",
+        "text_color": "#FFFFFF",
+        "logo": "shopify://shop_images/guan-yiac-logo.svg",
+        "logo_width": 157
+      }
+    }
+  },
+  "order": ["custom-footer"]
+}

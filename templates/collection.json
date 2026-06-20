@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "main": {
+      "type": "custom-main-collection",
+      "settings": {
+        "show_banner": true,
+        "show_banner_image": true,
+        "show_filters": true,
+        "show_sort": true,
+        "show_count": true,
+        "show_price": true,
+        "show_tagline": false,
+        "products_per_page": 12,
+        "columns": 4,
+        "image_ratio": "square",
+        "background_color": "#FAFAFA",
+        "text_color": "#252B37"
+      }
+    }
+  },
+  "order": ["main"]
+}

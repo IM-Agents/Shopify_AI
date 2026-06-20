@@ -1,0 +1,45 @@
+{
+  "sections": {
+    "hero": {
+      "type": "custom-image-banner",
+      "settings": { "full_width": true }
+    },
+    "intro": {
+      "type": "custom-rich-text",
+      "settings": { "heading": "Crediamo in un mondo migliore", "body": "" }
+    },
+    "stats": {
+      "type": "custom-icon-columns",
+      "blocks": {
+        "s0": { "type": "column", "settings": { "heading": "Risparmi il 90% di acqua" } },
+        "s1": { "type": "column", "settings": { "heading": "Risparmi il 90% di suolo" } },
+        "s2": { "type": "column", "settings": { "heading": "Risparmi CO2" } }
+      },
+      "block_order": ["s0", "s1", "s2"],
+      "settings": { "columns": 3 }
+    },
+    "health": {
+      "type": "custom-image-with-text",
+      "settings": { "image_position": "right", "heading": "Meglio per la tua salute" }
+    },
+    "planet": {
+      "type": "custom-image-with-text",
+      "settings": { "image_position": "left", "heading": "Meglio per il pianeta" }
+    },
+    "animals": {
+      "type": "custom-image-with-text",
+      "settings": { "image_position": "right", "heading": "Meglio per gli animali" }
+    },
+    "testimonials": {
+      "type": "custom-testimonials",
+      "blocks": {
+        "t0": { "type": "testimonial", "settings": {} },
+        "t1": { "type": "testimonial", "settings": {} },
+        "t2": { "type": "testimonial", "settings": {} }
+      },
+      "block_order": ["t0", "t1", "t2"],
+      "settings": { "heading": "Cosa dicono di noi", "columns": 3 }
+    }
+  },
+  "order": ["hero", "intro", "stats", "health", "planet", "animals", "testimonials"]
+}

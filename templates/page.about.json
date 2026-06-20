@@ -1,0 +1,25 @@
+{
+  "sections": {
+    "hero": {
+      "type": "custom-rich-text",
+      "settings": {
+        "heading": "About Guan Yiac Hardware",
+        "text": "<p>Established in 1943, Guan Yiac Hardware has been supplying Philippine industry with conveyor components, industrial hoses, power transmission products, and mechanical hardware for over 80 years.</p>",
+        "content_alignment": "center",
+        "background_color": "#F4FAF8",
+        "text_color": "#252B37"
+      }
+    },
+    "content": {
+      "type": "custom-image-with-text",
+      "settings": {
+        "heading": "Your Trusted Industrial Partner",
+        "text": "<p>We serve B2B and B2C buyers across Metro Manila and nationwide with 20,000+ SKUs, expert technical support, and same-day delivery on qualifying orders.</p>",
+        "layout": "image_first",
+        "background_color": "#FFFFFF",
+        "text_color": "#252B37"
+      }
+    }
+  },
+  "order": ["hero", "content"]
+}

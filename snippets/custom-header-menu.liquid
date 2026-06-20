@@ -1,0 +1,77 @@
+{% doc %}
+  Renders primary navigation with mega-menu support for top-level items that have children.
+  Mega menu: left category list + right subcategory grid (Figma Design V2).
+
+  @param {linklist} menu - Shopify menu linklist
+  @param {string} [list_class] - Root ul class
+{% enddoc %}
+{%- liquid
+  assign root_class = list_class | default: 'custom-header__menu'
+-%}
+{%- if menu != blank and menu.links.size > 0 -%}
+  <ul class="{{ root_class }}" role="list">
+    {%- for link in menu.links -%}
+      {%- if link.links.size > 0 -%}
+        <li class="custom-header__item custom-header__item--mega">
+          <details class="custom-header__mega" data-mega-menu>
+            <summary class="custom-header__link custom-header__summary">
+              <span>{{ link.title | escape }}</span>
+              {% render 'custom-icon', icon: 'chevron', class: 'custom-header__chevron' %}
+            </summary>
+            <div class="custom-header__mega-panel">
+              <div class="custom-header__mega-inner custom-container">
+                <nav class="custom-header__mega-cats" aria-label="{{ link.title | escape }}">
+                  <ul role="list">
+                    {%- for child in link.links -%}
+                      <li>
+                        <a
+                          class="custom-header__mega-cat{% if forloop.first %} is-active{% endif %}"
+                          href="{{ child.url }}"
+                          data-mega-cat
+                          data-cat-index="{{ forloop.index0 }}"
+                        >{{ child.title | escape }}</a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </nav>
+                <div class="custom-header__mega-subs">
+                  {%- for child in link.links -%}
+                    <div
+                      class="custom-header__mega-subpanel{% if forloop.first %} is-active{% endif %}"
+                      data-mega-panel="{{ forloop.index0 }}"
+                    >
+                      {%- if child.links.size > 0 -%}
+                        <ul class="custom-header__mega-grid" role="list">
+                          {%- for sub in child.links -%}
+                            <li>
+                              <a class="custom-header__mega-sublink" href="{{ sub.url }}">{{ sub.title | escape }}</a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      {%- else -%}
+                        <p class="custom-header__mega-empty">
+                          <a href="{{ child.url }}">{{ 'custom.header.browse_all' | t: category: child.title }}</a>
+                        </p>
+                      {%- endif -%}
+                      <a class="custom-header__mega-browse custom-btn custom-btn--primary" href="{{ child.url }}">
+                        {{ 'custom.header.browse_all_cta' | t }} →
+                      </a>
+                    </div>
+                  {%- endfor -%}
+                </div>
+              </div>
+            </div>
+          </details>
+        </li>
+      {%- else -%}
+        <li class="custom-header__item">
+          <a
+            class="custom-header__link{% if link.current %} is-active{% endif %}"
+            href="{{ link.url }}"
+            {% if link.current %}aria-current="page"{% endif %}
+          >{{ link.title | escape }}</a>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

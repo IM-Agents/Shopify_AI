@@ -1,0 +1,120 @@
+/*
+  custom-base.css — Global custom foundation layer (Phase 1).
+  Loaded AFTER Dawn's base.css so it can extend, not replace.
+
+  - Raw token VALUES come from theme settings via snippets/custom-css-variables.liquid
+    (the :root --custom-* properties). This file only DERIVES scales and exposes
+    reusable utility classes for custom-* sections to consume.
+  - Never hardcode brand values here; reference var(--custom-*) instead.
+  - Mobile-first: base rules target small screens, min-width queries scale up.
+*/
+
+:root {
+  /* Spacing scale derived from the merchant-editable base unit */
+  --custom-space-3xs: calc(var(--custom-space-unit) * 0.25);
+  --custom-space-2xs: calc(var(--custom-space-unit) * 0.5);
+  --custom-space-xs: calc(var(--custom-space-unit) * 0.75);
+  --custom-space-sm: var(--custom-space-unit);
+  --custom-space-md: calc(var(--custom-space-unit) * 1.5);
+  --custom-space-lg: calc(var(--custom-space-unit) * 2);
+  --custom-space-xl: calc(var(--custom-space-unit) * 3);
+  --custom-space-2xl: calc(var(--custom-space-unit) * 4);
+  --custom-space-3xl: calc(var(--custom-space-unit) * 6);
+
+  /* Fluid display type: clamps between the editable min/max across viewports */
+  --custom-display-size: clamp(
+    var(--custom-display-size-min),
+    4vw + 1rem,
+    var(--custom-display-size-max)
+  );
+}
+
+/* Layout containers ------------------------------------------------------- */
+.custom-container {
+  width: 100%;
+  max-width: var(--page-width, 1200px);
+  margin-inline: auto;
+  padding-inline: var(--custom-space-md);
+}
+
+.custom-container--narrow {
+  max-width: var(--custom-container-narrow);
+}
+
+@media screen and (min-width: 750px) {
+  .custom-container {
+    padding-inline: var(--custom-space-lg);
+  }
+}
+
+/* Display heading --------------------------------------------------------- */
+.custom-display {
+  font-family: var(--font-heading-family);
+  font-weight: var(--font-heading-weight);
+  font-size: var(--custom-display-size);
+  line-height: 1.1;
+  letter-spacing: var(--custom-letter-spacing-headings);
+  margin: 0;
+}
+
+/* Eyebrow / label text ---------------------------------------------------- */
+.custom-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: var(--custom-letter-spacing-labels);
+  font-size: 0.8125rem;
+  color: rgb(var(--color-foreground, 18 18 18));
+}
+
+/* Brand button helpers (opt-in; do not override Dawn's .button) ------------ */
+.custom-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--custom-space-2xs);
+  padding: var(--custom-space-sm) var(--custom-space-lg);
+  border: 1px solid transparent;
+  border-radius: 24px;
+  font: inherit;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.custom-btn--primary {
+  background-color: var(--custom-color-primary);
+  color: var(--custom-color-on-primary);
+}
+
+.custom-btn--primary:hover {
+  background-color: var(--custom-color-accent);
+}
+
+.custom-btn--secondary {
+  background-color: transparent;
+  color: var(--custom-color-primary);
+  border-color: var(--custom-color-primary);
+}
+
+.custom-btn--secondary:hover {
+  background-color: var(--custom-color-primary);
+  color: var(--custom-color-on-primary);
+}
+
+/* Radius utilities -------------------------------------------------------- */
+.custom-radius-sm { border-radius: var(--custom-radius-sm); }
+.custom-radius-md { border-radius: var(--custom-radius-md); }
+.custom-radius-lg { border-radius: var(--custom-radius-lg); }
+
+/* Accessibility: visible keyboard focus on custom interactive elements ----- */
+.custom-btn:focus-visible,
+.custom-container :focus-visible {
+  outline: 2px solid var(--custom-color-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-btn {
+    transition: none;
+  }
+}

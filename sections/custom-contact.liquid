@@ -1,0 +1,123 @@
+{%- liquid
+  assign s = section.settings
+  assign form_id = 'custom-contact-' | append: section.id
+-%}
+<section
+  class="custom-contact"
+  style="--ct-bg: {{ s.background_color | escape }}; --ct-fg: {{ s.text_color | escape }};"
+>
+  <div class="custom-contact__inner custom-container custom-container--narrow">
+    {%- if s.heading != blank -%}
+      <h2 class="custom-contact__heading custom-display">{{ s.heading | escape }}</h2>
+    {%- endif -%}
+    {%- if s.body != blank -%}
+      <div class="custom-contact__body rte">{{ s.body }}</div>
+    {%- endif -%}
+
+    {%- form 'contact', id: form_id, class: 'custom-contact__form' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="custom-contact__msg custom-contact__msg--success" role="status">{{ 'custom.contact.success' | t }}</p>
+      {%- elsif form.errors -%}
+        <p class="custom-contact__msg custom-contact__msg--error" role="alert">{{ form.errors | default_errors }}</p>
+      {%- endif -%}
+
+      <div class="custom-contact__row">
+        <label class="custom-contact__field">
+          <span>{{ 'custom.contact.name' | t }}</span>
+          <input type="text" name="contact[name]" value="{{ form.name | escape }}" autocomplete="name">
+        </label>
+        <label class="custom-contact__field">
+          <span>{{ 'custom.contact.email' | t }} *</span>
+          <input type="email" name="contact[email]" value="{{ form.email | escape }}" autocomplete="email" aria-required="true" required>
+        </label>
+      </div>
+
+      {%- if s.show_phone -%}
+        <label class="custom-contact__field">
+          <span>{{ 'custom.contact.phone' | t }}</span>
+          <input type="tel" name="contact[phone]" value="{{ form.phone | escape }}" autocomplete="tel">
+        </label>
+      {%- endif -%}
+
+      <label class="custom-contact__field">
+        <span>{{ 'custom.contact.message' | t }} *</span>
+        <textarea name="contact[body]" rows="6" aria-required="true" required>{{ form.body | escape }}</textarea>
+      </label>
+
+      <button type="submit" class="custom-btn custom-btn--primary custom-contact__submit">{{ 'custom.contact.send' | t }}</button>
+    {%- endform -%}
+  </div>
+</section>
+
+{% stylesheet %}
+.custom-contact {
+  background-color: var(--ct-bg, #000);
+  color: var(--ct-fg, #fff);
+  padding-block: var(--custom-space-2xl, 32px);
+}
+.custom-contact__heading { margin: 0 0 var(--custom-space-md, 12px); text-align: center; }
+.custom-contact__body { margin-bottom: var(--custom-space-lg, 16px); text-align: center; }
+.custom-contact__form { display: flex; flex-direction: column; gap: var(--custom-space-md, 12px); }
+.custom-contact__row { display: grid; grid-template-columns: 1fr; gap: var(--custom-space-md, 12px); }
+.custom-contact__field { display: flex; flex-direction: column; gap: 4px; font-size: 0.875rem; }
+.custom-contact__field input,
+.custom-contact__field textarea {
+  padding: 10px 12px;
+  background: transparent;
+  color: inherit;
+  border: 1px solid currentColor;
+  border-radius: var(--custom-radius-sm, 4px);
+  font: inherit;
+}
+.custom-contact__submit { align-self: center; }
+.custom-contact__msg { padding: var(--custom-space-sm, 8px) var(--custom-space-md, 12px); border-radius: var(--custom-radius-sm, 4px); }
+.custom-contact__msg--success { background: rgb(40 167 69 / 0.2); }
+.custom-contact__msg--error { background: rgb(220 53 69 / 0.2); }
+@media screen and (min-width: 750px) {
+  .custom-contact__row { grid-template-columns: 1fr 1fr; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:custom.contact.name",
+  "tag": "section",
+  "class": "custom-contact-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:custom.contact.heading_label",
+      "default": "Contact us"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "t:custom.contact.body_label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_phone",
+      "label": "t:custom.contact.show_phone",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:custom.contact.background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:custom.contact.text",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:custom.contact.name"
+    }
+  ]
+}
+{% endschema %}

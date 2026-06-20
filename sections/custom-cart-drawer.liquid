@@ -1,0 +1,243 @@
+<div
+  class="custom-drawer"
+  data-cart-drawer
+  data-cart-add-url="{{ routes.cart_add_url }}"
+  data-cart-change-url="{{ routes.cart_change_url }}"
+  aria-hidden="true"
+>
+  <div class="custom-drawer__overlay" data-drawer-close></div>
+  <aside class="custom-drawer__panel" role="dialog" aria-modal="true" aria-label="{{ 'custom.cart.title' | t }}">
+    <header class="custom-drawer__header">
+      <h2 class="custom-drawer__title">
+        {{ 'custom.cart.title' | t }} (<span data-cart-count>{{ cart.item_count }}</span>)
+      </h2>
+      <button type="button" class="custom-drawer__close" data-drawer-close aria-label="{{ 'custom.cart.close' | t }}">
+        {% render 'custom-icon', icon: 'close', class: 'custom-drawer__close-icon' %}
+      </button>
+    </header>
+
+    <div class="custom-drawer__body" data-drawer-body>
+      {%- if cart.item_count > 0 -%}
+        <ul class="custom-drawer__items" role="list">
+          {%- for item in cart.items -%}
+            <li class="custom-drawer__item" data-line="{{ forloop.index }}">
+              <a href="{{ item.url }}" class="custom-drawer__item-media">
+                {%- if item.image != blank -%}
+                  {{ item.image | image_url: width: 160 | image_tag: loading: 'lazy', class: 'custom-drawer__item-img', widths: '80, 120, 160', sizes: '80px', alt: item.title }}
+                {%- endif -%}
+              </a>
+              <div class="custom-drawer__item-info">
+                <a href="{{ item.url }}" class="custom-drawer__item-title">{{ item.product.title | escape }}</a>
+                {%- unless item.variant.title == 'Default Title' -%}
+                  <p class="custom-drawer__item-variant">{{ item.variant.title | escape }}</p>
+                {%- endunless -%}
+                <div class="custom-drawer__qty" data-line-qty>
+                  <button type="button" class="custom-drawer__qty-btn" data-qty-down aria-label="{{ 'custom.cart.decrease' | t }}">−</button>
+                  <span class="custom-drawer__qty-val" data-qty-val>{{ item.quantity }}</span>
+                  <button type="button" class="custom-drawer__qty-btn" data-qty-up aria-label="{{ 'custom.cart.increase' | t }}">+</button>
+                </div>
+              </div>
+              <div class="custom-drawer__item-right">
+                <span class="custom-drawer__item-price">{{ item.final_line_price | money }}</span>
+                <button type="button" class="custom-drawer__remove" data-remove aria-label="{{ 'custom.cart.remove' | t }}">
+                  {{ 'custom.cart.remove' | t }}
+                </button>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <p class="custom-drawer__empty" data-drawer-empty>{{ 'custom.cart.empty' | t }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if cart.item_count > 0 -%}
+      <footer class="custom-drawer__footer" data-drawer-footer>
+        <div class="custom-drawer__subtotal">
+          <span>{{ 'custom.cart.subtotal' | t }}</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        <form action="{{ routes.cart_url }}" method="post" class="custom-drawer__actions">
+          <a href="{{ routes.cart_url }}" class="custom-btn custom-btn--secondary custom-drawer__viewcart">{{ 'custom.cart.view' | t }}</a>
+          <button type="submit" name="checkout" class="custom-btn custom-btn--primary custom-drawer__checkout">{{ 'custom.cart.checkout' | t }}</button>
+        </form>
+      </footer>
+    {%- endif -%}
+  </aside>
+</div>
+
+{% stylesheet %}
+.custom-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  visibility: hidden;
+  pointer-events: none;
+}
+.custom-drawer[data-open] {
+  visibility: visible;
+  pointer-events: auto;
+}
+.custom-drawer__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.custom-drawer[data-open] .custom-drawer__overlay { opacity: 1; }
+.custom-drawer__panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(420px, 90vw);
+  background: var(--custom-color-on-primary, #fff);
+  color: #111;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+.custom-drawer[data-open] .custom-drawer__panel { transform: translateX(0); }
+.custom-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--custom-space-md, 12px) var(--custom-space-lg, 16px);
+  border-bottom: 1px solid rgb(0 0 0 / 0.1);
+}
+.custom-drawer__title { margin: 0; font-size: 1.125rem; }
+.custom-drawer__close { background: none; border: 0; cursor: pointer; color: inherit; }
+.custom-drawer__close-icon { width: 24px; height: 24px; }
+.custom-drawer__body { flex: 1; overflow-y: auto; padding: var(--custom-space-md, 12px) var(--custom-space-lg, 16px); }
+.custom-drawer__items { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--custom-space-md, 12px); }
+.custom-drawer__item { display: grid; grid-template-columns: 64px 1fr auto; gap: var(--custom-space-sm, 8px); }
+.custom-drawer__item-img { width: 64px; height: 64px; object-fit: cover; border-radius: var(--custom-radius-sm, 4px); }
+.custom-drawer__item-title { color: inherit; text-decoration: none; font-weight: 600; font-size: 0.9375rem; }
+.custom-drawer__item-variant { margin: 2px 0; font-size: 0.8125rem; opacity: 0.7; }
+.custom-drawer__qty { display: inline-flex; align-items: center; gap: 8px; margin-top: 6px; border: 1px solid rgb(0 0 0 / 0.2); border-radius: var(--custom-radius-sm, 4px); width: max-content; }
+.custom-drawer__qty-btn { background: none; border: 0; padding: 4px 10px; cursor: pointer; font-size: 1rem; line-height: 1; }
+.custom-drawer__item-right { text-align: right; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; }
+.custom-drawer__item-price { font-weight: 600; }
+.custom-drawer__remove { background: none; border: 0; cursor: pointer; text-decoration: underline; font-size: 0.75rem; color: inherit; opacity: 0.7; }
+.custom-drawer__footer { padding: var(--custom-space-md, 12px) var(--custom-space-lg, 16px); border-top: 1px solid rgb(0 0 0 / 0.1); }
+.custom-drawer__subtotal { display: flex; justify-content: space-between; font-weight: 600; margin-bottom: var(--custom-space-sm, 8px); }
+.custom-drawer__actions { display: flex; gap: var(--custom-space-sm, 8px); }
+.custom-drawer__actions .custom-btn { flex: 1; }
+.custom-drawer__empty { text-align: center; opacity: 0.7; padding: var(--custom-space-2xl, 32px) 0; }
+.custom-drawer[aria-busy="true"] .custom-drawer__body { opacity: 0.5; }
+@media (prefers-reduced-motion: reduce) {
+  .custom-drawer__overlay, .custom-drawer__panel { transition: none; }
+}
+{% endstylesheet %}
+
+{% javascript %}
+(function () {
+  var drawer = document.querySelector('[data-cart-drawer]');
+  if (!drawer) return;
+  var addUrl = drawer.getAttribute('data-cart-add-url');
+  var changeUrl = drawer.getAttribute('data-cart-change-url');
+  var lastFocus = null;
+
+  function setCounts(n) {
+    document.querySelectorAll('[data-cart-count]').forEach(function (el) { el.textContent = n; });
+    document.querySelectorAll('[data-cart-count-bubble]').forEach(function (el) { el.toggleAttribute('hidden', String(n) === '0'); });
+  }
+
+  function open() {
+    lastFocus = document.activeElement;
+    drawer.setAttribute('data-open', '');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    var c = drawer.querySelector('.custom-drawer__close');
+    if (c) c.focus();
+  }
+  function close() {
+    drawer.removeAttribute('data-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+  }
+
+  function refresh(html) {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var fresh = doc.querySelector('[data-cart-drawer]');
+    if (!fresh) return;
+    var freshBody = fresh.querySelector('[data-drawer-body]');
+    var curBody = drawer.querySelector('[data-drawer-body]');
+    if (freshBody && curBody) curBody.innerHTML = freshBody.innerHTML;
+    var freshFooter = fresh.querySelector('[data-drawer-footer]');
+    var curFooter = drawer.querySelector('[data-drawer-footer]');
+    if (curFooter) curFooter.remove();
+    if (freshFooter) drawer.querySelector('.custom-drawer__panel').appendChild(freshFooter);
+    var freshCount = fresh.querySelector('[data-cart-count]');
+    setCounts(freshCount ? freshCount.textContent : '0');
+  }
+
+  function postCart(url, body) {
+    drawer.setAttribute('aria-busy', 'true');
+    body.append('sections', 'custom-cart-drawer');
+    body.append('sections_url', window.location.pathname);
+    return fetch(url, {
+      method: 'POST',
+      headers: { 'Accept': 'application/javascript', 'X-Requested-With': 'XMLHttpRequest' },
+      body: body
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data && data.sections && data.sections['custom-cart-drawer']) {
+          refresh(data.sections['custom-cart-drawer']);
+        }
+        drawer.removeAttribute('aria-busy');
+        return data;
+      })
+      .catch(function () { drawer.removeAttribute('aria-busy'); });
+  }
+
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('[data-cart-toggle]')) { e.preventDefault(); open(); return; }
+    if (e.target.closest('[data-drawer-close]')) { close(); return; }
+    var removeBtn = e.target.closest('[data-remove]');
+    if (removeBtn) {
+      var line = removeBtn.closest('[data-line]').getAttribute('data-line');
+      var fd = new FormData(); fd.append('line', line); fd.append('quantity', '0');
+      postCart(changeUrl, fd);
+      return;
+    }
+    var up = e.target.closest('[data-qty-up]');
+    var down = e.target.closest('[data-qty-down]');
+    if (up || down) {
+      var li = (up || down).closest('[data-line]');
+      var current = parseInt(li.querySelector('[data-qty-val]').textContent, 10) || 0;
+      var next = up ? current + 1 : Math.max(0, current - 1);
+      var fd2 = new FormData(); fd2.append('line', li.getAttribute('data-line')); fd2.append('quantity', next);
+      postCart(changeUrl, fd2);
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && drawer.hasAttribute('data-open')) close();
+  });
+
+  document.addEventListener('submit', function (e) {
+    var form = e.target;
+    var action = form.getAttribute && form.getAttribute('action');
+    if (form.tagName === 'FORM' && form.closest('[data-custom-product]') && action && action.indexOf('/cart/add') !== -1) {
+      e.preventDefault();
+      var btn = form.querySelector('[type="submit"]');
+      if (btn) btn.setAttribute('aria-busy', 'true');
+      postCart(addUrl, new FormData(form)).then(function () {
+        if (btn) btn.removeAttribute('aria-busy');
+        open();
+      });
+    }
+  });
+})();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:custom.cart.name"
+}
+{% endschema %}

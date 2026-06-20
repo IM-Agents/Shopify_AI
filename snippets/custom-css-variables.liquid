@@ -1,0 +1,31 @@
+{% doc %}
+  Outputs the global "Brand Foundations" design tokens as `:root` CSS custom
+  properties, sourced entirely from theme settings so a merchant can edit every
+  value in the Theme Editor (no hardcoded brand values). Extends Dawn's existing
+  color-scheme and typography tokens rather than replacing them.
+
+  Render once in <head>, before `custom-base.css`.
+
+  @example
+  {% render 'custom-css-variables' %}
+{% enddoc %}
+{% style %}
+  :root {
+    --custom-color-primary: {{ settings.custom_color_primary | default: '#1a1a1a' }};
+    --custom-color-secondary: {{ settings.custom_color_secondary | default: '#6b6b6b' }};
+    --custom-color-accent: {{ settings.custom_color_accent | default: '#c89b3c' }};
+    --custom-color-on-primary: {{ settings.custom_color_on_primary | default: '#ffffff' }};
+
+    --custom-letter-spacing-headings: {{ settings.custom_letter_spacing_headings | default: 0 }}px;
+    --custom-letter-spacing-labels: {{ settings.custom_letter_spacing_labels | default: 1 }}px;
+    --custom-display-size-min: {{ settings.custom_display_size_min | default: 32 }}px;
+    --custom-display-size-max: {{ settings.custom_display_size_max | default: 64 }}px;
+
+    --custom-space-unit: {{ settings.custom_space_unit | default: 8 }}px;
+    --custom-container-narrow: {{ settings.custom_container_narrow | default: 800 }}px;
+
+    --custom-radius-sm: {{ settings.custom_radius_sm | default: 4 }}px;
+    --custom-radius-md: {{ settings.custom_radius_md | default: 8 }}px;
+    --custom-radius-lg: {{ settings.custom_radius_lg | default: 16 }}px;
+  }
+{% endstyle %}
